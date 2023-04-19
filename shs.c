@@ -19,7 +19,15 @@ void executeCommand(char **bufferCopy)
 
 	if (pid == 0)
 	{
-		snprintf(command, SIZE, "%s/%s", "/usr/bin", bufferCopy[0]);
+		sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]);
+
+		/*access verifica si el archivo existe y si el 
+		 *proceso tiene permiso para acceder*/
+		if (access(command, 1) == -1)
+		{
+			perror("hsh");
+			exit(1);
+		}
 
 		if (execve(command, bufferCopy, NULL) == -1)
 		{
@@ -34,6 +42,17 @@ void executeCommand(char **bufferCopy)
 	{
 		waitpid(pid, NULL, 0);
 	}
+}
+
+/**
+ * frees - free memory leaks
+ * @buffer: address of pointer
+ * @bufferCopy: address of double pointer
+ */
+void frees(char *buffer, char **bufferCopy)
+{
+   free(buffer);
+   free(bufferCopy);
 }
 
 /**
@@ -52,7 +71,7 @@ int shell00(void)
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
 		printf("\n");
-		free(buffer), exit(0);
+		frees(buffer,NULL), exit(0);
 	}
 
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
@@ -68,17 +87,15 @@ int shell00(void)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
 		{
-			free(buffer);
-			free(bufferCopy);
-			exit(1);
+			frees(buffer, bufferCopy), exit(1);
 		}
 		else
 		{
 			executeCommand(bufferCopy);
 		}
 	}
-	free(buffer);
-	free(bufferCopy);
+
+	frees(buffer, bufferCopy);
 }
 
 /**
