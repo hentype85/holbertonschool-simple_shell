@@ -3,97 +3,110 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/types.h>
 
 #define SIZE 1024
 
+/**
+ * executeCommand - Function
+ * @bufferCopy: the buffer
+ * Return: the command being executed
+ */
 void executeCommand(char **bufferCopy)
 {
-    	char command[SIZE]; 
-    	pid_t pid = fork(); //crear proceso hijo
+	char command[SIZE];
+	pid_t pid = fork();
 
-    	if (pid == 0) 
-    	{   //proceso hijo
+	if (pid == 0)
+	{
 		snprintf(command, SIZE, "%s/%s", "/usr/bin", bufferCopy[0]);
-        
-		if (execve(command, bufferCopy, NULL) == -1) 
+
+		if (execve(command, bufferCopy, NULL) == -1)
 		{
-	     		perror("hsh");
+			perror("hsh");
 		}
-    	} 
-    	else if (pid < 0) 
-    	{ //error fork
+	}
+	else if (pid < 0)
+	{
 		perror("hsh");
-    	} 
-    	else 
-    	{ // proceso padre
-		waitpid(pid, NULL, 0); // esperar que termine el hijo
-    	}
+	}
+	else
+	{
+		waitpid(pid, NULL, 0);
+	}
 }
 
-int shell00()
+/**
+ * shell00 - its the shell
+ * Return: void
+ */
+int shell00(void)
 {
-     	size_t len = 0, bufSIZE = SIZE;
-     	int i = 0, exVal = 0;
-     	char *buffer = malloc(sizeof(char) * bufSIZE); //asignar memoria
-   
-     	char **bufferCopy;
-     	char *token;
-     	pid_t pid;
-   
-     	if (getline(&buffer,&bufSIZE,stdin) == -1)
-     	{
-	  	printf("\n");
-	  	free(buffer), exit(0);
-     	}
-   
- 
-     	//tokens
+	size_t len = 0, bufSIZE = SIZE;
+	int i = 0, exVal = 0;
+	char *buffer = malloc(sizeof(char) * bufSIZE);
+	char **bufferCopy;
+	char *token;
+	pid_t pid;
+
+	if (getline(&buffer, &bufSIZE, stdin) == -1)
+	{
+		printf("\n");
+		free(buffer), exit(0);
+	}
+
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
-     	token = strtok(buffer, " \n");
-     	while (token != NULL)
-     	{
-	  	bufferCopy[i++] = token;
-	  	token = strtok(NULL, " \n");
-     	}
-     	bufferCopy[i] = NULL; //NULL al final del token
-   
-   
-     	//ejecutar comando
-	if(bufferCopy[0] != NULL)
-     	{
-	  	if (strcmp(bufferCopy[0], "exit") == 0)
-	  	{
-	       		free(buffer);
-	       		free(bufferCopy);
-	       		return (1);
-	  	}
-	  	else
-	  	{
-	       		executeCommand(bufferCopy);
-	  	}      
-     	}   
-     	free(buffer);
-     	free(bufferCopy);
+	token = strtok(buffer, " \n");
+	while (token != NULL)
+	{
+		bufferCopy[i++] = token;
+		token = strtok(NULL, " \n");
+	}
+	bufferCopy[i] = NULL;
+
+	if (bufferCopy[0] != NULL)
+	{
+		if (strcmp(bufferCopy[0], "exit") == 0)
+		{
+			free(buffer);
+			free(bufferCopy);
+			exit(1);
+		}
+		else
+		{
+			executeCommand(bufferCopy);
+		}
+	}
+	free(buffer);
+	free(bufferCopy);
 }
 
+/**
+ * signalHandler - the func of exit
+ * @signum: the int of the signal
+ * Return: an int
+ */
 void signalHandler(int signum)
 {
-     	exit(1);
+	exit(1);
 }
 
-int main() 
+/**
+ * main - the function
+ * Return: nothing
+ */
+int main(void)
 {
+	signal(SIGINT, signalHandler);
 
-     	signal(SIGINT, signalHandler);  //ctrl+d cierra programa
-
-     	if (isatty(STDIN_FILENO) == 1) //si el stdout esta conectado al terminal
-     	{
-	  	while (1)
-	  	{
-	       		printf("($) ");
-	       		if (shell00() == 1)
-		    		break;
-	  	}
+	if (isatty(STDIN_FILENO) == 1)
+	{
+		while (1)
+		{
+			printf("($) ");
+			if (shell00() == 1)
+				break;
+		}
 	}
-     	return 0;
+	return (0);
 }
