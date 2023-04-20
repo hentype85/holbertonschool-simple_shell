@@ -23,9 +23,7 @@ void executeCommand(char *buffer, char **bufferCopy)
 		}
 
 		if (execve(command, bufferCopy, NULL) == -1)
-		{
 			perror("hsh");
-		}
 	}
 	else if (pid < 0)
 	{
@@ -51,17 +49,34 @@ void frees(char *buffer, char **bufferCopy)
 }
 
 /**
- * shell00 - its the shell
- * Return: void
+ * getTokens - string tokenization
+ * @buffer: pointer to main buffer
+ * @bufferCopy: double pointer to bufferCopy
+ * Return: the string of tokens
  */
-int shell00(void)
+char **getTokens(char *buffer, char **bufferCopy)
 {
-	size_t len = 0, bufSIZE = SIZE;
-	int i = 0, exVal = 0;
+	int i = 0;
+	char *token = strtok(buffer, " \n");
+
+	while (token != NULL)
+	{
+		bufferCopy[i++] = token;
+		token = strtok(NULL, " \n");
+	}
+	bufferCopy[i] = NULL;
+
+	return (bufferCopy);
+}
+
+/**
+ * shell00 - its the shell
+ */
+void shell00(void)
+{
+	size_t bufSIZE = SIZE;
 	char *buffer = malloc(sizeof(char) * bufSIZE);
-	char **bufferCopy;
-	char *token;
-	pid_t pid;
+	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
@@ -69,14 +84,7 @@ int shell00(void)
 		frees(buffer, NULL), exit(0);
 	}
 
-	bufferCopy = malloc(sizeof(char *) * bufSIZE);
-	token = strtok(buffer, " \n");
-	while (token != NULL)
-	{
-		bufferCopy[i++] = token;
-		token = strtok(NULL, " \n");
-	}
-	bufferCopy[i] = NULL;
+	bufferCopy = getTokens(buffer, bufferCopy);
 
 	if (bufferCopy[0] != NULL)
 	{
@@ -86,34 +94,4 @@ int shell00(void)
 			executeCommand(buffer, bufferCopy);
 	}
 	frees(buffer, bufferCopy);
-}
-
-/**
- * signalHandler - the func of exit
- * @signum: the int of the signal
- * Return: an int
- */
-void signalHandler(int signum)
-{
-	exit(1);
-}
-
-/**
- * main - the function
- * Return: nothing
- */
-int main(void)
-{
-	signal(SIGINT, signalHandler);
-
-	if (isatty(STDIN_FILENO) == 1)
-	{
-		while (1)
-		{
-			printf("($) ");
-			if (shell00() == 1)
-				break;
-		}
-	}
-	return (0);
 }
