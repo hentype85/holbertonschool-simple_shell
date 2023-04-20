@@ -5,7 +5,7 @@
  * @bufferCopy: the buffer
  * Return: the command being executed
  */
-void executeCommand(char **bufferCopy)
+void executeCommand(char *buffer,char **bufferCopy)
 {
 	char command[SIZE];
 	pid_t pid = fork();
@@ -19,7 +19,7 @@ void executeCommand(char **bufferCopy)
 		if (access(command, 1) == -1)
 		{
 			perror("hsh");
-			frees(NULL,bufferCopy);
+			frees(buffer, bufferCopy);
 			exit(1);
 		}
 
@@ -84,7 +84,7 @@ int shell00(void)
 		if (strcmp(bufferCopy[0], "exit") == 0)
 			frees(buffer, bufferCopy), exit(1);
 		else
-			executeCommand(bufferCopy);
+			executeCommand(buffer,bufferCopy);
 	}
 	frees(buffer, bufferCopy);
 }

@@ -10,7 +10,7 @@
 
 #define SIZE 1024
 
-void executeCommand(char **bufferCopy);
+void executeCommandar(char *buffer, char **bufferCopy);
 void frees(char *buffer, char **bufferCopy);
 int shell00();
 void signalHandler(int signum);
