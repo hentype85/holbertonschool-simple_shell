@@ -3,9 +3,10 @@
 /**
  * executeCommand - Function
  * @bufferCopy: the buffer
+ * @buffer: it is a buffer
  * Return: the command being executed
  */
-void executeCommand(char *buffer,char **bufferCopy)
+void executeCommand(char *buffer, char **bufferCopy)
 {
 	char command[SIZE];
 	pid_t pid = fork();
@@ -14,8 +15,6 @@ void executeCommand(char *buffer,char **bufferCopy)
 	{
 		sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]);
 
-		/*access verifica si el archivo existe y si el 
-		 *proceso tiene permiso para acceder*/
 		if (access(command, 1) == -1)
 		{
 			perror("hsh");
@@ -45,9 +44,9 @@ void executeCommand(char *buffer,char **bufferCopy)
  */
 void frees(char *buffer, char **bufferCopy)
 {
-	if(buffer)
+	if (buffer)
 		free(buffer);
-	if(bufferCopy)
+	if (bufferCopy)
 		free(bufferCopy);
 }
 
@@ -67,7 +66,7 @@ int shell00(void)
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
 		printf("\n");
-		frees(buffer,NULL), exit(0);
+		frees(buffer, NULL), exit(0);
 	}
 
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
@@ -84,7 +83,7 @@ int shell00(void)
 		if (strcmp(bufferCopy[0], "exit") == 0)
 			frees(buffer, bufferCopy), exit(1);
 		else
-			executeCommand(buffer,bufferCopy);
+			executeCommand(buffer, bufferCopy);
 	}
 	frees(buffer, bufferCopy);
 }
