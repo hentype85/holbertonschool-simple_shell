@@ -9,19 +9,21 @@
 void executeCommand(char *buffer, char **bufferCopy)
 {
 	char command[SIZE];
-	pid_t pid = fork();
+	pid_t pid;
+
+	sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]);
+
+	if (access(command, 1) == -1)
+	{
+		perror("hsh");
+		frees(buffer, bufferCopy);
+		exit(1);
+	}
+
+	pid = fork();
 
 	if (pid == 0)
 	{
-		sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]);
-
-		if (access(command, 1) == -1)
-		{
-			perror("hsh");
-			frees(buffer, bufferCopy);
-			exit(1);
-		}
-
 		if (execve(command, bufferCopy, NULL) == -1)
 			perror("hsh");
 	}
