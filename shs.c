@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-
-#define SIZE 1024
+#include "main.h"
 
 /**
  * executeCommand - Function
@@ -26,6 +19,7 @@ void executeCommand(char **bufferCopy)
 		if (access(command, 1) == -1)
 		{
 			perror("hsh");
+			frees(NULL,bufferCopy);
 			exit(1);
 		}
 
@@ -51,8 +45,10 @@ void executeCommand(char **bufferCopy)
  */
 void frees(char *buffer, char **bufferCopy)
 {
-   free(buffer);
-   free(bufferCopy);
+	if(buffer)
+		free(buffer);
+	if(bufferCopy)
+		free(bufferCopy);
 }
 
 /**
@@ -86,15 +82,10 @@ int shell00(void)
 	if (bufferCopy[0] != NULL)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
-		{
 			frees(buffer, bufferCopy), exit(1);
-		}
 		else
-		{
 			executeCommand(bufferCopy);
-		}
 	}
-
 	frees(buffer, bufferCopy);
 }
 
