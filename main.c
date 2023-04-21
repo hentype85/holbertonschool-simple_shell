@@ -7,24 +7,35 @@
  */
 void signalHandler(int signum)
 {
-        exit(signum);
+	exit(signum);
 }
 
 /**
  * main - the function
- * Return: nothing
+ * @argc: argument count
+ * @argv: argument vector
+ * Return: 0 is ok
  */
-int main(void)
+int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 {
-        signal(SIGINT, signalHandler);
+	signal(SIGINT, signalHandler);
 
-        if (isatty(STDIN_FILENO) == 1)
-        {
-                while (1)
-                {
-                        printf("($) ");
-                        shell00();
-                }
-        }
-        return (0);
+	if (isatty(STDIN_FILENO) == 1)
+	{
+		while (1)
+		{
+			printf("($) ");
+			shellInt();
+		}
+	}
+	else
+	{
+		while (1)
+		{
+			/*shellNoInt();*/
+			break;
+		}
+	}
+
+	return (0);
 }

@@ -13,7 +13,7 @@
 void executeCommandar(char *buffer, char **bufferCopy);
 void frees(char *buffer, char **bufferCopy);
 char **getTokens(char *buffer, char **bufferCopy);
-void shell00(void);
+void shellInt(void);
 void signalHandler(int signum);
 
 #endif

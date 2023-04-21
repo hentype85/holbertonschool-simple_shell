@@ -67,9 +67,9 @@ char **getTokens(char *buffer, char **bufferCopy)
 }
 
 /**
- * shell00 - its the shell
+ * shellInt - its the shell
  */
-void shell00(void)
+void shellInt(void)
 {
 	size_t bufSIZE = SIZE;
 	char *buffer = malloc(sizeof(char) * bufSIZE);
