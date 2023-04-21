@@ -6,7 +6,7 @@
  * @buffer: it is a buffer
  * Return: the command being executed
  */
-void executeCommand(char *buffer, char **bufferCopy)
+void executeCommand(char __attribute__((unused)) *buffer, char **bufferCopy)
 {
 	char command[SIZE];
 	pid_t pid;
@@ -15,9 +15,8 @@ void executeCommand(char *buffer, char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
-		perror("hsh");
-		frees(buffer, bufferCopy);
-		exit(1);
+		perror(bufferCopy[0]);
+		return;
 	}
 
 	pid = fork();
@@ -25,16 +24,12 @@ void executeCommand(char *buffer, char **bufferCopy)
 	if (pid == 0)
 	{
 		if (execve(command, bufferCopy, NULL) == -1)
-			perror("hsh");
+			perror(bufferCopy[0]);
 	}
 	else if (pid < 0)
-	{
-		perror("hsh");
-	}
+		perror(bufferCopy[0]);
 	else
-	{
 		waitpid(pid, NULL, 0);
-	}
 }
 
 /**
@@ -44,9 +39,9 @@ void executeCommand(char *buffer, char **bufferCopy)
  */
 void frees(char *buffer, char **bufferCopy)
 {
-	if (buffer)
+	if (buffer != NULL)
 		free(buffer);
-	if (bufferCopy)
+	if (bufferCopy != NULL)
 		free(bufferCopy);
 }
 
@@ -83,7 +78,7 @@ void shell00(void)
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
 		printf("\n");
-		frees(buffer, NULL), exit(0);
+		frees(buffer, bufferCopy), exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
@@ -93,7 +88,10 @@ void shell00(void)
 		if (strcmp(bufferCopy[0], "exit") == 0)
 			frees(buffer, bufferCopy), exit(1);
 		else
+		{
 			executeCommand(buffer, bufferCopy);
+		}
 	}
+
 	frees(buffer, bufferCopy);
 }
