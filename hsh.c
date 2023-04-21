@@ -11,7 +11,8 @@ void executeCommand(char __attribute__((unused)) *buffer, char **bufferCopy)
 	char command[SIZE];
 	pid_t pid;
 
-	sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]);
+	/* sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]); */
+	sprintf(command, "%s", bufferCopy[0]);
 
 	if (access(command, 1) == -1)
 	{
