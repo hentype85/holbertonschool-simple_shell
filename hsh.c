@@ -11,8 +11,8 @@ void executeCommand(char **bufferCopy)
 	pid_t pid;
 
 	/* sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]); */
-	/* sprintf(command, "%s", bufferCopy[0]); */
-	sprintf(command, "%s/%s", _getenv(), bufferCopy[0]);
+	sprintf(command, "%s", bufferCopy[0]);
+	/* sprintf(command, "%s/%s", _getenv(), bufferCopy[0]); */
 
 	if (access(command, 1) == -1)
 	{
@@ -89,9 +89,7 @@ void shellInt(void)
 		if (strcmp(bufferCopy[0], "exit") == 0)
 			frees(buffer, bufferCopy), exit(1);
 		else
-		{
 			executeCommand(bufferCopy);
-		}
 	}
 
 	frees(buffer, bufferCopy);

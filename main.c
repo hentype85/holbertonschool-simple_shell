@@ -32,8 +32,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 	{
 		while (1)
 		{
-			/*shellNoInt();*/
-			break;
+			shellInt();
 		}
 	}
 
