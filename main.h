@@ -10,7 +10,7 @@
 
 #define SIZE 1024
 
-void executeCommandar(char *buffer, char **bufferCopy);
+void executeCommandar(char **bufferCopy);
 void frees(char *buffer, char **bufferCopy);
 char **getTokens(char *buffer, char **bufferCopy);
 void shellInt(void);

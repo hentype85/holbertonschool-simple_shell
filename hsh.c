@@ -2,11 +2,10 @@
 
 /**
  * executeCommand - Function
- * @bufferCopy: the buffer
- * @buffer: it is a buffer
+ * @bufferCopy: the buffer tokenized
  * Return: the command being executed
  */
-void executeCommand(char __attribute__((unused)) *buffer, char **bufferCopy)
+void executeCommand(char **bufferCopy)
 {
 	char command[SIZE];
 	pid_t pid;
@@ -90,7 +89,7 @@ void shellInt(void)
 			frees(buffer, bufferCopy), exit(1);
 		else
 		{
-			executeCommand(buffer, bufferCopy);
+			executeCommand(bufferCopy);
 		}
 	}
 
