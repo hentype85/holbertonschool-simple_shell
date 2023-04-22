@@ -9,15 +9,17 @@ char *_getpath(char *command)
 {
 	int gotPath = 0;
 	char command_path[SIZE];
-	char *token = strtok(_getenv(), ":");
+	char *path = strdup(_getenv());
+	char *token = strtok(path, ":");
 
 	if (access(command, 1) == 0)
-		return (command);
-	if (_getenv() != NULL)
+		return (strdup(command));
+	if (path != NULL)
 	{
 		while (token != NULL)
 		{
 			sprintf(command_path, "%s/%s", token, command);
+
 			if (access(command_path, 1) == 0)
 			{
 				gotPath = 1;
@@ -26,6 +28,9 @@ char *_getpath(char *command)
 			token = strtok(NULL, ":");
 		}
 	}
+
+	free(path);
+
 	if (gotPath)
 		return (strdup(command_path));
 
