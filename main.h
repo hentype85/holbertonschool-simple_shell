@@ -19,5 +19,6 @@ void shellInt(void);
 void signalHandler(int signum);
 int _strncmp(char *s1, char *s2, int n);
 char *_getenv();
+char *_getpath(char *command);
 
 #endif

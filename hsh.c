@@ -11,8 +11,9 @@ void executeCommand(char **bufferCopy)
 	pid_t pid;
 
 	/* sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]); */
-	sprintf(command, "%s", bufferCopy[0]);
+	/* sprintf(command, "%s", bufferCopy[0]); */
 	/* sprintf(command, "%s/%s", _getenv(), bufferCopy[0]); */
+	sprintf(command, "%s", _getpath(bufferCopy[0]));
 
 	if (access(command, 1) == -1)
 	{
