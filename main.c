@@ -7,6 +7,7 @@
  */
 void signalHandler(int signum)
 {
+	printf("\n");
 	exit(signum);
 }
 

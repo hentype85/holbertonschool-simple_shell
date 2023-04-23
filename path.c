@@ -1,7 +1,8 @@
 #include "main.h"
 
 /**
- * _getpath - get the path
+ * _getpath - get the rute of command
+ * finding the ":" as a delimiter
  * @command: command to check
  * Return: the command, pointer to path or NULL
  */

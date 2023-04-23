@@ -88,15 +88,9 @@ void shellInt(void)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
 			frees(buffer, bufferCopy), exit(1);
+
 		if (strcmp(bufferCopy[0], "env") == 0)
-		{
-			char **env = environ;
-			while (*env)
-			{
-				printf("%s\n", *env);
-				env++;
-			}
-		}
+			showEnviron();
 		else
 			executeCommand(bufferCopy);
 	}
