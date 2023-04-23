@@ -19,18 +19,26 @@ void executeCommand(char **bufferCopy)
 		perror(bufferCopy[0]);
 		return;
 	}
-
-	pid = fork();
-
-	if (pid == 0)
-	{
-		if (execve(command, bufferCopy, NULL) == -1)
-			perror(bufferCopy[0]);
-	}
-	else if (pid < 0)
-		perror(bufferCopy[0]);
 	else
-		waitpid(pid, NULL, 0);
+	{
+		pid = fork();
+		
+		if (pid == 0)
+		{
+			bufferCopy[0][_strlen(bufferCopy[0]) - 1] = '\0';
+
+			if (execve(command, bufferCopy, NULL) == -1)
+			{
+				perror(bufferCopy[0]);
+			}
+		}
+		else if (pid < 0)
+		{
+			perror(bufferCopy[0]);
+		}
+		else
+			waitpid(pid, NULL, 0);
+	}
 }
 
 /**
