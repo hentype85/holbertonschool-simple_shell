@@ -84,10 +84,13 @@ char **getTokens(char *buffer, char **bufferCopy)
 void shellInt(void)
 {
 	size_t bufSIZE = SIZE;
-	char *buffer = malloc(sizeof(char) * bufSIZE);
+	char *buffer;
+	char **bufferCopy;
+
+	buffer = malloc(sizeof(char) * bufSIZE);
 	if (buffer == NULL)
 		exit(1);
-	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
+	bufferCopy = malloc(sizeof(char *) * bufSIZE);
 	if (bufferCopy == NULL)
 	{
 		free(buffer);
