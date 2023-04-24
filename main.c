@@ -19,22 +19,16 @@ void signalHandler(int signum)
  */
 int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 {
+	int res = 0;
 	signal(SIGINT, signalHandler);
 
-	if (isatty(STDIN_FILENO) == 1)
+	while(1)
 	{
-		while (1)
-		{
+		res = isatty(STDIN_FILENO);
+		if (res == 1)
 			printf("($) ");
-			shellInt();
-		}
-	}
-	else
-	{
-		while (1)
-		{
-			shellInt();
-		}
+	
+		shellInt();
 	}
 
 	return (0);
