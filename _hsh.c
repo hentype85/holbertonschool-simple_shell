@@ -85,7 +85,14 @@ void shellInt(void)
 {
 	size_t bufSIZE = SIZE;
 	char *buffer = malloc(sizeof(char) * bufSIZE);
+	if (buffer == NULL)
+		exit(1);
 	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
+	if (bufferCopy == NULL)
+	{
+		free(buffer);
+		exit(1);
+	}
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
