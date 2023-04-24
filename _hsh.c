@@ -8,11 +8,12 @@
 void executeCommand(char **bufferCopy)
 {
 	char command[SIZE];
+	char *getPath = _getpath(bufferCopy[0]);
 	pid_t pid;
 
 	/* sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]); */
 	/* sprintf(command, "%s", bufferCopy[0]); */
-	sprintf(command, "%s", _getpath(bufferCopy[0]));
+	sprintf(command, "%s", getPath);
 
 	if (access(command, 1) == -1)
 	{
@@ -22,7 +23,7 @@ void executeCommand(char **bufferCopy)
 	else
 	{
 		pid = fork();
-		
+
 		if (pid == 0)
 		{
 			bufferCopy[0][_strlen(bufferCopy[0]) - 1] = '\0';
@@ -39,6 +40,8 @@ void executeCommand(char **bufferCopy)
 		else
 			waitpid(pid, NULL, 0);
 	}
+
+	free(getPath);
 }
 
 /**

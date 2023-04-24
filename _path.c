@@ -10,7 +10,7 @@ char *_getpath(char *command)
 {
 	int gotPath = 0;
 	char command_path[SIZE];
-	char *path = _strdup(_getenv());
+	char *path = strdup(_getenv());
 	char *token = strtok(path, ":");
 
 	if (access(command, 1) == 0)
