@@ -91,18 +91,30 @@ void shellInt(void)
 	buffer = malloc(sizeof(char) * bufSIZE);
 	if (buffer == NULL)
 	{
+<<<<<<< HEAD
 		/*printf("...Memory allocating error.\n");*/
+=======
+		perror("...Memory allocating error.\n");
+>>>>>>> db7d9de18e6146912a65191d95dd0b062ec1411d
 		exit(1);
 	}
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
 	if (bufferCopy == NULL)
 	{
+<<<<<<< HEAD
 		/*printf("...Memory allocating error.\n");*/
+=======
+		perror("...Memory allocating error.\n");
+>>>>>>> db7d9de18e6146912a65191d95dd0b062ec1411d
 		free(buffer), exit(1);
 	}
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
+<<<<<<< HEAD
 		/*printf("...Imput lecture error.\n");*/
+=======
+		perror("...Imput lecture error.\n");
+>>>>>>> db7d9de18e6146912a65191d95dd0b062ec1411d
 		frees(buffer, bufferCopy), exit(0);
 	}
 	bufferCopy = getTokens(buffer, bufferCopy);
