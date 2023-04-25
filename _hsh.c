@@ -88,6 +88,7 @@ void shellInt(void)
 	size_t bufSIZE = SIZE;
 	char *buffer;
 	char **bufferCopy;
+	int readed = 0;
 
 	buffer = malloc(sizeof(char) * bufSIZE);
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
@@ -95,11 +96,14 @@ void shellInt(void)
 	{
 		free(buffer);
 	}
-	
-	if (getline(&buffer, &bufSIZE, stdin) == -1)
+
+	readed = getline(&buffer, &bufSIZE, stdin);
+	if (readed == -1)
 	{
 		frees(buffer, bufferCopy), exit(0);
 	}
+
+	/**/ buffer[readed - 1] = '\0';
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
