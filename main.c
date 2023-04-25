@@ -20,18 +20,21 @@ void signalHandler(int __attribute__((unused)) signum)
  */
 int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 {
-	int res = 0;
-
 	signal(SIGINT, signalHandler);
 
-	while (1)
+	if (isatty(STDIN_FILENO) == 1)
 	{
-		res = isatty(STDIN_FILENO);
-		if (res == 1)
+		while (1)
+		{
 			printf("($) ");
-
-		shellInt();
+			shellInt();
+		}
 	}
-
-	return (0);
+	else
+	{
+		while (1)
+		{
+			shellInt();
+		}
+	}
 }
