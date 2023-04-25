@@ -103,7 +103,7 @@ void shellInt(void)
 
 	if (bufferCopy[0] != NULL && SpecialChar(bufferCopy[0]) == 0)
 	{
-		if (strcmp(bufferCopy[0], "exit") == 0)
+		if (strcmp(bufferCopy[0], "exit\n") == 0)
 		{
 			frees(buffer, bufferCopy);
 			exit(EXIT_SUCCESS);
