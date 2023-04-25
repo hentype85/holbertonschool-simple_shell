@@ -110,7 +110,7 @@ void shellInt(void)
 	if (bufferCopy[0] != NULL)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
-			frees(buffer, bufferCopy), exit(0);
+			frees(buffer, bufferCopy), exit(1);
 
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
