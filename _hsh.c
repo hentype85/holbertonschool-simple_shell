@@ -68,9 +68,7 @@ char **getTokens(char *buffer, char **bufferCopy)
 
 	while (token != NULL)
 	{
-		if (SpecialChar(token) == 0)
-			bufferCopy[i++] = token;
-
+		bufferCopy[i++] = token;
 		token = strtok(NULL, " \n");
 	}
 	bufferCopy[i] = NULL;
