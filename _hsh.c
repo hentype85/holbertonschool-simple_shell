@@ -95,7 +95,7 @@ void shellInt(void)
 		free(buffer), exit(1);
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
-		frees(buffer, bufferCopy);
+		frees(buffer, bufferCopy), exit(0);
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
