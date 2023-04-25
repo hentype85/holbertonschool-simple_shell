@@ -93,14 +93,17 @@ void shellInt(void)
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
 	if (bufferCopy == NULL)
 	{
-		free(buffer);
-		exit(1);
+		free(buffer), exit(1);
 	}
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		/* printf("\n"); */
 		frees(buffer, bufferCopy), exit(0);
+	}
+
+	if (SpecialChar(buffer))
+	{
+		frees(buffer, bufferCopy), exit(1);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);

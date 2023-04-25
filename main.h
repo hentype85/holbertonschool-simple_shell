@@ -23,5 +23,6 @@ char *_getpath(char *command);
 void showEnviron(void);
 int _strlen(char *s);
 char *_strdup(char *s);
+int SpecialChar(char *s);
 
 #endif
