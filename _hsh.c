@@ -92,32 +92,28 @@ void shellInt(void)
 		exit(1);
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
 	if (bufferCopy == NULL)
-	{
 		free(buffer), exit(1);
-	}
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
-	{
-		frees(buffer, bufferCopy), exit(0);
-	}
+		frees(buffer, bufferCopy);
 
-	if (SpecialChar(buffer))
+	else if (SpecialChar(buffer) == 0)
 	{
-		frees(buffer, bufferCopy), exit(1);
-	}
-
-	bufferCopy = getTokens(buffer, bufferCopy);
-
-	if (bufferCopy[0] != NULL)
-	{
+		bufferCopy = getTokens(buffer, bufferCopy);
+		if (bufferCopy[0] != NULL)
+		{
 		if (strcmp(bufferCopy[0], "exit") == 0)
 			frees(buffer, bufferCopy), exit(0);
 
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
-		else
-			executeCommand(bufferCopy);
-	}
 
-	frees(buffer, bufferCopy);
+		if (bufferCopy != NULL)
+			executeCommand(bufferCopy);
+		}
+
+		frees(buffer, bufferCopy);
+	}
+	else
+		frees(buffer, bufferCopy);
 }

@@ -8,17 +8,19 @@
 int SpecialChar(char *s)
 {
 	int i = 0, j = 0, len = 0;
-	char special[] = "\"'\\*&#";
+	char special[] = "\"'\\*&#^[[C";
 
 	while (special[len])
 		len++;
 
 	for (i = 0; s[i] != '\0'; i++)
 	{
-		for(j = 0; j < len; j++)
+		for (j = 0; j < len; j++)
 		{
 			if (s[i] == special[j])
+			{
 				return (1);
+			}
 		}
 	}
 
