@@ -32,13 +32,11 @@ void executeCommand(char **bufferCopy)
 			{
 				/*perror("./hsh");*/
 				fprintf(stderr, "%s: %s: %s\n", "./hsh", bufferCopy[0], strerror(errno));
-				exit(EXIT_FAILURE);
 			}
 		}
 		else if (pid < 0)
 		{
 			fprintf(stderr, "%s: %s\n", "./hsh", strerror(errno));
-			exit(EXIT_FAILURE);
 			/*perror("./hsh");*/
 		}
 		else
@@ -100,7 +98,7 @@ void shellInt(void)
 	
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		frees(buffer, bufferCopy), exit(1);
+		frees(buffer, bufferCopy), exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
