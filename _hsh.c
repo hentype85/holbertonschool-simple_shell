@@ -93,7 +93,9 @@ void shellInt(void)
 	}
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		fflush(stdin);
+		if (isatty(STDIN_FILENO) == 0)
+			printf("\n");
+
 		frees(buffer, bufferCopy), exit(0);
 	}
 
