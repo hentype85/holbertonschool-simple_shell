@@ -11,13 +11,11 @@ void executeCommand(char **bufferCopy)
 	char *getPath = _getpath(bufferCopy[0]);
 	pid_t pid;
 
-	/* sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]); */
-	/* sprintf(command, "%s", bufferCopy[0]); */
 	sprintf(command, "%s", getPath);
 
 	if (access(command, 1) == -1)
 	{
-		perror(bufferCopy[0]);
+		perror("./hsh");
 		return;
 	}
 	else
@@ -30,12 +28,12 @@ void executeCommand(char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				perror(bufferCopy[0]);
+				perror("./hsh");
 			}
 		}
 		else if (pid < 0)
 		{
-			perror(bufferCopy[0]);
+			perror("./hsh");
 		}
 		else
 			waitpid(pid, NULL, 0);
@@ -70,7 +68,9 @@ char **getTokens(char *buffer, char **bufferCopy)
 
 	while (token != NULL)
 	{
-		bufferCopy[i++] = token;
+		if (SpecialChar(token) == 0)
+			bufferCopy[i++] = token;
+
 		token = strtok(NULL, " \n");
 	}
 	bufferCopy[i] = NULL;
@@ -101,9 +101,9 @@ void shellInt(void)
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
-	if (bufferCopy[0] != NULL && SpecialChar(bufferCopy[0]) == 0)
+	if (bufferCopy[0] != NULL)
 	{
-		if (strcmp(bufferCopy[0], "exit\n") == 0)
+		if (strcmp(bufferCopy[0], "exit") == 0)
 		{
 			frees(buffer, bufferCopy);
 			exit(EXIT_SUCCESS);
@@ -113,7 +113,9 @@ void shellInt(void)
 			showEnviron();
 
 		else
+		{
 			executeCommand(bufferCopy);
+		}
 	}
 
 	frees(buffer, bufferCopy);

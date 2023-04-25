@@ -27,6 +27,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 		while (1)
 		{
 			printf("($) ");
+			fflush(stdout);
 			shellInt();
 		}
 	}
