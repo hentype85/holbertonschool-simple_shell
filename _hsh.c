@@ -95,12 +95,13 @@ void shellInt(void)
 	}
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
+		fflush(stdin);
 		frees(buffer, bufferCopy), exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
-	if (bufferCopy[0] != NULL)
+	if (bufferCopy[0] != NULL && SpecialChar(bufferCopy[0]) == 0)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
 			frees(buffer, bufferCopy), exit(0);
