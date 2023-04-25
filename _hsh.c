@@ -103,7 +103,8 @@ void shellInt(void)
 		frees(buffer, bufferCopy), exit(0);
 	}
 
-	/**/ buffer[readed - 1] = '\0';
+	if (buffer[0] == '\0')
+		exit(0);
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
