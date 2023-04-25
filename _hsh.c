@@ -107,7 +107,7 @@ void shellInt(void)
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
 
-		if (bufferCopy != NULL)
+		else if (bufferCopy != NULL)
 			executeCommand(bufferCopy);
 	}
 
