@@ -105,7 +105,7 @@ void shellInt(void)
 		if (strcmp(bufferCopy[0], "exit") == 0)
 		{
 			frees(buffer, bufferCopy);
-			exit(0);
+			exit(EXIT_SUCCESSFUL);
 		}
 
 		if (strcmp(bufferCopy[0], "env") == 0)
