@@ -97,11 +97,10 @@ void shellInt(void)
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 		frees(buffer, bufferCopy);
 
-	else if (SpecialChar(buffer) == 0)
+	bufferCopy = getTokens(buffer, bufferCopy);
+
+	if (bufferCopy[0] != NULL)
 	{
-		bufferCopy = getTokens(buffer, bufferCopy);
-		if (bufferCopy[0] != NULL)
-		{
 		if (strcmp(bufferCopy[0], "exit") == 0)
 			frees(buffer, bufferCopy), exit(0);
 
@@ -110,10 +109,7 @@ void shellInt(void)
 
 		if (bufferCopy != NULL)
 			executeCommand(bufferCopy);
-		}
-
-		frees(buffer, bufferCopy);
 	}
-	else
-		frees(buffer, bufferCopy);
+
+	frees(buffer, bufferCopy);
 }
