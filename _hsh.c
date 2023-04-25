@@ -33,10 +33,9 @@ void executeCommand(char **bufferCopy)
 				perror(bufferCopy[0]);
 			}
 		}
-		if (pid == -1)
+		else if (pid < 0)
 		{
-	    		printf("Son proccess creation error.\n");
-			exit(1);
+			perror(bufferCopy[0]);
 		}
 		else
 			waitpid(pid, NULL, 0);
@@ -89,22 +88,16 @@ void shellInt(void)
 	char **bufferCopy;
 
 	buffer = malloc(sizeof(char) * bufSIZE);
-	if (buffer == NULL)
-	{
-		perror("...Memory allocating error.\n");
-		exit(1);
-	}
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
 	if (bufferCopy == NULL)
 	{
-		perror("...Memory allocating error.\n");
-		free(buffer), exit(1);
+		free(buffer);
 	}
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		perror("...Imput lecture error.\n");
 		frees(buffer, bufferCopy), exit(0);
 	}
+
 	bufferCopy = getTokens(buffer, bufferCopy);
 
 	if (bufferCopy[0] != NULL)
