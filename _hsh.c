@@ -1,4 +1,5 @@
 #include "main.h"
+#include <errno.h>
 
 /**
  * executeCommand - Function
@@ -15,7 +16,8 @@ void executeCommand(char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
-		perror("./hsh");
+		fprintf(stderr, "%s: %s: command not found\n", "./hsh", bufferCopy[0]);
+		/*perror("./hsh");*/
 		return;
 	}
 	else
@@ -28,12 +30,16 @@ void executeCommand(char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				perror("./hsh");
+				/*perror("./hsh");*/
+				fprintf(stderr, "%s: %s: %s\n", "./hsh", bufferCopy[0], strerror(errno));
+				exit(EXIT_FAILURE);
 			}
 		}
 		else if (pid < 0)
 		{
-			perror("./hsh");
+			fprintf(stderr, "%s: %s\n", "./hsh", strerror(errno));
+			exit(EXIT_FAILURE);
+			/*perror("./hsh");*/
 		}
 		else
 			waitpid(pid, NULL, 0);
@@ -91,9 +97,10 @@ void shellInt(void)
 	{
 		free(buffer);
 	}
+	
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		frees(buffer, bufferCopy), exit(0);
+		frees(buffer, bufferCopy), exit(1);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
