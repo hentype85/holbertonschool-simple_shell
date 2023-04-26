@@ -17,8 +17,6 @@ void executeCommand(char **bufferCopy)
 	{
 		perror("./hsh No such file or directory");
 		/*perror(bufferCopy[0]);*/
-		if (isatty(STDIN_FILENO) != 1)
-			exit(1);
 		return;
 	}
 	else
@@ -31,9 +29,7 @@ void executeCommand(char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				/*perror("./hsh error execve");*/
-				if (isatty(STDIN_FILENO) != 1)
-					exit(127);
+				perror("./hsh error execve");
 			}
 		}
 		else if (pid < 0)
