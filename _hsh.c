@@ -1,5 +1,4 @@
 #include "main.h"
-#include <errno.h>
 
 /**
  * executeCommand - Function
@@ -16,8 +15,7 @@ void executeCommand(char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
-		fprintf(stderr, "%s: %s: command not found\n", "./hsh", bufferCopy[0]);
-		/*perror("./hsh");*/
+		fprintf(stderr, "%s: No such file or directory\n", "./hsh");
 		return;
 	}
 	else
@@ -30,14 +28,12 @@ void executeCommand(char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				/*perror("./hsh");*/
-				fprintf(stderr, "%s: %s: %s\n", "./hsh", bufferCopy[0], strerror(errno));
+				fprintf(stderr, "%s: No such file or directory\n", "./hsh");
 			}
 		}
 		else if (pid < 0)
 		{
-			fprintf(stderr, "%s: %s\n", "./hsh", strerror(errno));
-			/*perror("./hsh");*/
+			fprintf(stderr, "%s: Parent error\n", "./hsh");
 		}
 		else
 			waitpid(pid, NULL, 0);

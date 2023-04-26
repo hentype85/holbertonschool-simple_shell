@@ -36,6 +36,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 		while (1)
 		{
 			shellInt();
+			printf("\n");
 		}
 	}
 }
