@@ -115,6 +115,11 @@ void shellInt(void)
 			frees(buffer, bufferCopy);
 			exit(EXIT_SUCCESS);
 		}
+		if (strcmp(bufferCopy[0], "clear") == 0)
+		{
+			 printf("\033[2J");
+			 printf("\033[0;0H");
+		}
 
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
