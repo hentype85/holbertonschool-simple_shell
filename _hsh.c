@@ -96,6 +96,7 @@ void shellInt(void)
 	readed = getline(&buffer, &bufSIZE, stdin);
 	if (readed == -1)
 	{
+		fflush(stdin);
 		frees(buffer, bufferCopy), exit(0);
 	}
 
