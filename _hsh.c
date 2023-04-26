@@ -15,7 +15,8 @@ void executeCommand(char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
-		perror("./hsh No such file or directory");
+		/*perror("./hsh No such file or directory");*/
+		perror(bufferCopy[0]);
 		return;
 	}
 	else
@@ -28,7 +29,7 @@ void executeCommand(char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				perror("./hsh");
+				perror("./hsh error execve");
 			}
 		}
 		else if (pid < 0)
@@ -92,7 +93,7 @@ void shellInt(void)
 	if (readed == -1)
 	{
 		fflush(stdin);
-		frees(buffer, bufferCopy), exit(0);
+		frees(buffer, bufferCopy), exit(1);
 	}
 
 	if (buffer[0] == '\0')
