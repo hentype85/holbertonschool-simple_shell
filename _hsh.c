@@ -96,12 +96,14 @@ void shellInt(void)
 	readed = getline(&buffer, &bufSIZE, stdin);
 	if (readed == -1)
 	{
-		printf("\n");
 		frees(buffer, bufferCopy), exit(0);
 	}
 
 	if (buffer[0] == '\0')
+	{
+		free(buffer);
 		exit(0);
+	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
