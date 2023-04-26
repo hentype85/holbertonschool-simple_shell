@@ -11,14 +11,13 @@ void executeCommand(char **bufferCopy)
 	char *getPath = _getpath(bufferCopy[0]);
 	pid_t pid;
 
+	/* sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]); */
+	/* sprintf(command, "%s", bufferCopy[0]); */
 	sprintf(command, "%s", getPath);
 
 	if (access(command, 1) == -1)
 	{
-		perror("./hsh No such file or directory");
-		/*perror(bufferCopy[0]);*/
-		if (isatty(STDIN_FILENO) != 1)
-			exit(1);
+		perror(bufferCopy[0]);
 		return;
 	}
 	else
@@ -31,14 +30,12 @@ void executeCommand(char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				/*perror("./hsh error execve");*/
-				if (isatty(STDIN_FILENO) != 1)
-					exit(127);
+				perror(bufferCopy[0]);
 			}
 		}
 		else if (pid < 0)
 		{
-			perror("./hsh");
+			perror(bufferCopy[0]);
 		}
 		else
 			waitpid(pid, NULL, 0);
@@ -87,42 +84,27 @@ char **getTokens(char *buffer, char **bufferCopy)
 void shellInt(void)
 {
 	size_t bufSIZE = SIZE;
-	int readed = 0;
 	char *buffer = malloc(sizeof(char) * bufSIZE);
 	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
-	if (bufferCopy == NULL)
-		free(buffer);
 
-	readed = getline(&buffer, &bufSIZE, stdin);
-	if (readed == -1)
+	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		fflush(stdin);
-		frees(buffer, bufferCopy), exit(-1);
-	}
-
-	if (buffer[0] == '\0')
-	{
-		free(buffer);
-		exit(0);
+		frees(buffer, bufferCopy), exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
+
 	if (bufferCopy[0] != NULL)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
-		{
-			frees(buffer, bufferCopy);
-			exit(EXIT_SUCCESS);
-		}
+			frees(buffer, bufferCopy), exit(1);
 
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
-
 		else
-		{
 			executeCommand(bufferCopy);
-		}
 	}
 
 	frees(buffer, bufferCopy);
 }
+

@@ -5,11 +5,10 @@
  * @signum: the int of the signal
  * Return: an int
  */
-void signalHandler(int __attribute__((unused)) signum)
+void signalHandler(int signum)
 {
 	printf("\n");
-	fflush(stdout);
-	exit(0);
+	exit(signum);
 }
 
 /**
@@ -24,7 +23,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 
 	signal(SIGINT, signalHandler);
 
-	while (1)
+	while(1)
 	{
 		res = isatty(STDIN_FILENO);
 		if (res == 1)
@@ -35,3 +34,4 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 
 	return (0);
 }
+
