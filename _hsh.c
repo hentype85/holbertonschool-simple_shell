@@ -15,8 +15,8 @@ void executeCommand(char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
-		/*perror("./hsh No such file or directory");*/
-		perror(bufferCopy[0]);
+		perror("./hsh No such file or directory");
+		/*perror(bufferCopy[0]);*/
 		return;
 	}
 	else
