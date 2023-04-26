@@ -85,17 +85,20 @@ void shellInt(void)
 	int readed = 0;
 	char *buffer = malloc(sizeof(char) * bufSIZE);
 	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
-
-	if (buffer[0] == '\0')
-	{
+	if (bufferCopy == NULL)
 		free(buffer);
-		exit(0);
-	}
+
 	readed = getline(&buffer, &bufSIZE, stdin);
 	if (readed == -1)
 	{
 		fflush(stdin);
 		frees(buffer, bufferCopy), exit(0);
+	}
+
+	if (buffer[0] == '\0')
+	{
+		free(buffer);
+		exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
