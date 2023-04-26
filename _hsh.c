@@ -15,7 +15,7 @@ void executeCommand(char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
-		fprintf(stderr, "%s: No such file or directory\n", "./hsh");
+		perror("./hsh");
 		return;
 	}
 	else
@@ -28,12 +28,12 @@ void executeCommand(char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				fprintf(stderr, "%s: No such file or directory\n", "./hsh");
+				perror("./hsh");
 			}
 		}
 		else if (pid < 0)
 		{
-			fprintf(stderr, "%s: Parent error\n", "./hsh");
+			perror("./hsh");
 		}
 		else
 			waitpid(pid, NULL, 0);
@@ -110,11 +110,6 @@ void shellInt(void)
 		{
 			frees(buffer, bufferCopy);
 			exit(EXIT_SUCCESS);
-		}
-		if (strcmp(bufferCopy[0], "clear") == 0)
-		{
-			 printf("\033[2J");
-			 printf("\033[0;0H");
 		}
 
 		if (strcmp(bufferCopy[0], "env") == 0)
