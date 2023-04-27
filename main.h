@@ -12,9 +12,6 @@
 
 extern char **environ;
 
-void handle_sigint(int sig);
-void handle_sigquit(int sig);
-void handle_sigstp(int sig);
 void executeCommand(char *buffer, char **bufferCopy);
 void frees(char *buffer, char **bufferCopy);
 char **getTokens(char *buffer, char **bufferCopy);

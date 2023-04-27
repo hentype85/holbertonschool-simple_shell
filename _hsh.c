@@ -2,54 +2,57 @@
 
 /**
  * executeCommand - Function
- * @buffer: original buffer
  * @bufferCopy: the buffer tokenized
  * Return: the command being executed
  */
 void executeCommand(char *buffer, char **bufferCopy)
 {
-        char command[SIZE];
-        char **getPath = malloc(sizeof(char *) * 2);
-	int status = 0;
-        pid_t pid;
+	char command[SIZE];
+	char *getPath = _getpath(bufferCopy[0]);
+	pid_t pid;
 
-        getPath[0] = _getpath(bufferCopy[0]);
-        getPath[1] = NULL;
+	sprintf(command, "%s", getPath);
 
-        if (!getPath[0])
-        {
-                perror("not found");
-                free(getPath); 
-                return;
-        }
+	if (access(command, 1) == -1)
+	{
+		fprintf(stderr, "./hsh: 1: %s: not found\n", bufferCopy[0]);
+		if (isatty(STDIN_FILENO) != 1)
+		{
+			free(getPath);
+			frees(buffer,bufferCopy);
+			exit(-1);
+		}
+		else
+			return;
+	}
+	else
+	{
+		pid = fork();
 
-        sprintf(command, "%s", getPath[0]);
+		if (pid == 0)
+		{
+			bufferCopy[0][_strlen(bufferCopy[0]) - 1] = '\0';
 
-        pid = fork();
+			if (execve(command, bufferCopy, NULL) == -1)
+			{
+				perror(bufferCopy[0]);
+				if (isatty(STDIN_FILENO) != 1)
+				{
+					free(getPath);
+					frees(buffer,bufferCopy);
+					exit(-1);
+				}
+			}
+		}
+		else if (pid < 0)
+		{
+			perror(bufferCopy[0]);
+		}
+		else
+			waitpid(pid, NULL, 0);
+	}
 
-        if (pid == -1)
-        {
-                perror(bufferCopy[0]);
-                free(getPath);
-		return;
-        }
-        else if (pid == 0)
-        {
-                if (execve(command, bufferCopy, getPath) == -1)
-                {
-                        perror(bufferCopy[0]);
-                        frees(buffer,bufferCopy);
-                        free(getPath); 
-                        exit(EXIT_FAILURE);
-                }
-        }
-        else
-        {
-                while (!WIFEXITED(status) && !WIFSIGNALED(status))
-                                waitpid(pid, &status, WUNTRACED);
-        }
-
-        free(getPath);
+	free(getPath);
 }
 
 /**

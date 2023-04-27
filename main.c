@@ -1,56 +1,35 @@
 #include "main.h"
 
+/**
+ * signalHandler - the func of exit
+ * @signum: the int of the signal
+ */
+void signalHandler(int signum)
+{
+	(void) signum;
+	write(STDOUT_FILENO, "\n($) ", 6);
+}
 
-int main(void)
+/**
+ * main - the function
+ * @argc: argument count
+ * @argv: argument vector
+ * Return: 0 is ok
+ */
+int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 {
 	int res = 0;
 
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
-	signal(SIGTSTP, handle_sigstp);
+	signal(SIGINT, signalHandler);
 
 	while(1)
 	{
 		res = isatty(STDIN_FILENO);
 		if (res == 1)
-		{
 			printf("($) ");
-			fflush(stdout);
-		}
 
 		shellInt();
 	}
 
 	return (0);
-}
-
-void handle_sigint(int sig)
-{
-	(void) sig;
-	putchar('\n');
-	printf("($) ");
-	fflush(stdout);
-}
-
-void handle_sigquit(int sig)
-{
-    char *msg = "Quit (core dumped)\n";
-    size_t len;
-    (void) sig;
-
-    len = strlen(msg);
-
-    if(write(STDERR_FILENO, msg, len) == -1)
-       perror("write");
-
-    exit(EXIT_SUCCESS);
-}
-
-
-void handle_sigstp(int sig)
-{
-	(void) sig;
-	puts("\n");
-	printf("($) ");
-	fflush(stdout);
 }
