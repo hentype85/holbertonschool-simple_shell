@@ -5,10 +5,13 @@
  * @signum: the int of the signal
  * Return: an int
  */
-void signalHandler(int signum)
+void signalHandler(int sig)
 {
-	printf("\n");
-	exit(signum);
+	char *prompt = "\n($) ";
+
+	(void)sig;
+	signal(SIGINT, signalHandler);
+	write(STDIN_FILENO, prompt, 3);
 }
 
 /**
@@ -27,7 +30,10 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 	{
 		res = isatty(STDIN_FILENO);
 		if (res == 1)
+		{
 			printf("($) ");
+			fflush(stdout);
+		}
 
 		shellInt();
 	}

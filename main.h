@@ -12,7 +12,7 @@
 
 extern char **environ;
 
-void executeCommand(char *buffer, char **bufferCopy);
+void executeCommand(char **bufferCopy);
 void frees(char *buffer, char **bufferCopy);
 char **getTokens(char *buffer, char **bufferCopy);
 void shellInt(void);

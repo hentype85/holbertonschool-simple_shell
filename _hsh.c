@@ -5,24 +5,19 @@
  * @bufferCopy: the buffer tokenized
  * Return: the command being executed
  */
-void executeCommand(char *buffer, char **bufferCopy)
+void executeCommand(char **bufferCopy)
 {
 	char command[SIZE];
 	char *getPath = _getpath(bufferCopy[0]);
+	int status = 0;
 	pid_t pid;
 
 	sprintf(command, "%s", getPath);
 
 	if (access(command, 1) == -1)
 	{
-		fprintf(stderr, "./hsh: 1: %s: not found\n", bufferCopy[0]);
-		if (isatty(STDIN_FILENO) != 1)
-		{
-			frees(buffer, bufferCopy);
-			exit(-1);
-		}
-		else
-			return;
+		perror(bufferCopy[0]);
+		return;
 	}
 	else
 	{
@@ -34,20 +29,22 @@ void executeCommand(char *buffer, char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				fprintf(stderr, "./hsh: 1: %s: not found\n", bufferCopy[0]);
-				if (isatty(STDIN_FILENO) != 1)
-				{
-					frees(buffer, bufferCopy);
-					exit(-1);
-				}
+				perror(bufferCopy[0]);
+				exit(EXIT_FAILURE);
 			}
 		}
 		else if (pid < 0)
 		{
-			perror(bufferCopy[0]);
+			perror("fork");
+			return;
 		}
 		else
-			waitpid(pid, NULL, 0);
+		{
+			do
+			{
+				waitpid(pid, &status, WUNTRACED);
+			}while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		}
 	}
 
 	free(getPath);
@@ -98,19 +95,11 @@ void shellInt(void)
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		if (isatty(STDIN_FILENO) != 1)
-		{
-			frees(buffer,bufferCopy), exit(-1);
-		}
-	}
-
-	if (buffer[0] == '\0')
-	{
-		if (isatty(STDIN_FILENO) != 1)
-			frees(buffer, bufferCopy), exit(1);
+		frees(buffer, bufferCopy), exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
+
 	if (bufferCopy[0] != NULL)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
@@ -119,9 +108,8 @@ void shellInt(void)
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
 		else
-			executeCommand(buffer, bufferCopy);
+			executeCommand(bufferCopy);
 	}
 
-	frees(buffer,bufferCopy);
+	frees(buffer, bufferCopy);
 }
-
