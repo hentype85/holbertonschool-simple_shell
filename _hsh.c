@@ -2,52 +2,54 @@
 
 /**
  * executeCommand - Function
+ * @buffer: original buffer
  * @bufferCopy: the buffer tokenized
  * Return: the command being executed
  */
-void executeCommand(char **bufferCopy)
+void executeCommand(char *buffer, char **bufferCopy)
 {
-	char command[SIZE];
-	char *getPath = _getpath(bufferCopy[0]);
+        char command[SIZE];
+        char **getPath = malloc(sizeof(char *) * 2);
 	int status = 0;
-	pid_t pid;
+        pid_t pid;
 
-	sprintf(command, "%s", getPath);
+        getPath[0] = _getpath(bufferCopy[0]);
+        getPath[1] = NULL;
 
-	if (access(command, 1) == -1)
-	{
-		perror(bufferCopy[0]);
+        if (!getPath[0])
+        {
+                perror("not found");
+                free(getPath); 
+                return;
+        }
+
+        sprintf(command, "%s", getPath[0]);
+
+        pid = fork();
+
+        if (pid == -1)
+        {
+                perror(bufferCopy[0]);
+                free(getPath);
 		return;
-	}
-	else
-	{
-		pid = fork();
+        }
+        else if (pid == 0)
+        {
+                if (execve(command, bufferCopy, getPath) == -1)
+                {
+                        perror(bufferCopy[0]);
+                        frees(buffer,bufferCopy);
+                        free(getPath); 
+                        exit(EXIT_FAILURE);
+                }
+        }
+        else
+        {
+                while (!WIFEXITED(status) && !WIFSIGNALED(status))
+                                waitpid(pid, &status, WUNTRACED);
+        }
 
-		if (pid == 0)
-		{
-			bufferCopy[0][_strlen(bufferCopy[0]) - 1] = '\0';
-
-			if (execve(command, bufferCopy, NULL) == -1)
-			{
-				perror(bufferCopy[0]);
-				exit(EXIT_FAILURE);
-			}
-		}
-		else if (pid < 0)
-		{
-			perror("fork");
-			return;
-		}
-		else
-		{
-			do
-			{
-				waitpid(pid, &status, WUNTRACED);
-			}while (!WIFEXITED(status) && !WIFSIGNALED(status));
-		}
-	}
-
-	free(getPath);
+        free(getPath);
 }
 
 /**
@@ -108,7 +110,7 @@ void shellInt(void)
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
 		else
-			executeCommand(bufferCopy);
+			executeCommand(buffer, bufferCopy);
 	}
 
 	frees(buffer, bufferCopy);
