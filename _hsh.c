@@ -11,13 +11,12 @@ void executeCommand(char **bufferCopy)
 	char *getPath = _getpath(bufferCopy[0]);
 	pid_t pid;
 
-	/* sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]); */
-	/* sprintf(command, "%s", bufferCopy[0]); */
 	sprintf(command, "%s", getPath);
 
 	if (access(command, 1) == -1)
 	{
-		perror(bufferCopy[0]);
+		/*perror(bufferCopy[0]);*/
+		fprintf(stderr, "./hsh: 1: %s: Command not found\n", bufferCopy[0]);
 		return;
 	}
 	else
