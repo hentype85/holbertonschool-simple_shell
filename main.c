@@ -26,7 +26,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 	{
 		res = isatty(STDIN_FILENO);
 		if (res == 1)
-			printf("($) ");
+			write(1,"($) ",4);
 
 		shellInt();
 	}
