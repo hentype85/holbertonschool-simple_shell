@@ -5,7 +5,7 @@
  * @bufferCopy: the buffer tokenized
  * Return: the command being executed
  */
-void executeCommand(char **bufferCopy)
+void executeCommand(char *buffer, char **bufferCopy)
 {
 	char command[SIZE];
 	char *getPath = _getpath(bufferCopy[0]);
@@ -17,7 +17,10 @@ void executeCommand(char **bufferCopy)
 	{
 		fprintf(stderr, "./hsh: 1: %s: not found\n", bufferCopy[0]);
 		if (isatty(STDIN_FILENO) != 1)
-			exit(127);
+		{
+			frees(buffer, bufferCopy);
+			exit(-1);
+		}
 		else
 			return;
 	}
@@ -31,9 +34,12 @@ void executeCommand(char **bufferCopy)
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				perror(bufferCopy[0]);
+				fprintf(stderr, "./hsh: 1: %s: not found\n", bufferCopy[0]);
 				if (isatty(STDIN_FILENO) != 1)
-					exit(127);
+				{
+					frees(buffer, bufferCopy);
+					exit(-1);
+				}
 			}
 		}
 		else if (pid < 0)
@@ -92,11 +98,19 @@ void shellInt(void)
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		frees(buffer, bufferCopy), exit(0);
+		if (isatty(STDIN_FILENO) != 1)
+		{
+			frees(buffer,bufferCopy), exit(-1);
+		}
+	}
+
+	if (buffer[0] == '\0')
+	{
+		if (isatty(STDIN_FILENO) != 1)
+			frees(buffer, bufferCopy), exit(1);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
-
 	if (bufferCopy[0] != NULL)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
@@ -105,11 +119,9 @@ void shellInt(void)
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
 		else
-			executeCommand(bufferCopy);
+			executeCommand(buffer, bufferCopy);
 	}
 
-	/*free(buffer);*/
-	/*free(bufferCopy);*/
 	frees(buffer,bufferCopy);
 }
 
