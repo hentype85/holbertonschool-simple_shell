@@ -16,8 +16,11 @@ void executeCommand(char **bufferCopy)
 	if (access(command, 1) == -1)
 	{
 		/*perror(bufferCopy[0]);*/
-		fprintf(stderr, "./hsh: 1: %s: Command not found\n", bufferCopy[0]);
-		return;
+		fprintf(stderr, "./hsh: 1: %s: not found\n", bufferCopy[0]);
+		if (isatty(STDIN_FILENO) != 1)
+			exit(127);
+		else
+			return;
 	}
 	else
 	{
@@ -30,6 +33,8 @@ void executeCommand(char **bufferCopy)
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
 				perror(bufferCopy[0]);
+				if (isatty(STDIN_FILENO) != 1)
+					exit(127);
 			}
 		}
 		else if (pid < 0)
