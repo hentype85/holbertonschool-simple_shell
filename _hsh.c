@@ -100,6 +100,4 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 		else
 			executeCommand(buffer, bufferCopy, argv);
 	}
-
-	frees(buffer, bufferCopy);
 }
