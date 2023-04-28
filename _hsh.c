@@ -9,17 +9,21 @@
 void executeCommand(char *buffer, char **bufferCopy, char **argv)
 {
     char command[SIZE];
-    int status = 0;
     pid_t pid;
 
     sprintf(command, "%s", _getpath(bufferCopy[0]));
 
-   
-        pid = fork();
+    if (access(command, 1) == -1)
+    {
+	    perror(argv[0]);
+	    return;
+    }
+
+    pid = fork();
 
         if (pid == 0)
         {
-            bufferCopy[0][strlen(bufferCopy[0]) - 1] = '\0';
+             /*bufferCopy[0][strlen(bufferCopy[0]) - 1] = '\0';*/
 
             if (execve(command, bufferCopy, NULL) == -1)
             {
@@ -38,8 +42,7 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
         }
         else
         {
-		if (waitpid(-1, &status, 0) == -1)
-			perror(argv[0]);
+		waitpid(pid, NULL, 0);
         }
  
 }
@@ -77,7 +80,7 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 	{
 		free(buffer);/**/
 		free(bufferCopy); /**/
-		exit(1);
+		exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
