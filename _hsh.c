@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ *executeCommand - the function
+ *@buffer: buffer
+ *@bufferCopy: copy of the buffer
+ *@argv: argv
+ */
 void executeCommand(char *buffer, char **bufferCopy, char **argv)
 {
     char command[SIZE];
@@ -20,7 +26,7 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
             {
                 perror(argv[0]);
 		free(buffer);
-		free(bufferCopy);
+                free(bufferCopy); 
                 exit(EXIT_FAILURE);
             }
         }
@@ -28,7 +34,7 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
         {
             perror(argv[0]);
 	    free(buffer);
-	    free(bufferCopy);
+            free(bufferCopy);
             exit(EXIT_FAILURE);
         }
         else
@@ -43,7 +49,12 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
         return;
     }
 }
-
+/**
+ * getTokens - The function that tokenizes
+ * @buffer: Object to tokenize
+ * @bufferCopy: Tokenized copy
+ * Return: Allways
+ */
 char **getTokens(char *buffer, char **bufferCopy)
 {
 	int i = 0;
@@ -59,13 +70,20 @@ char **getTokens(char *buffer, char **bufferCopy)
 	return (bufferCopy);
 }
 
+/**
+ * shellInt - the core of the Shell
+ * @buffer: The imput
+ * @bufferCopy: The tokenized save
+ * @bufSIZE: the size of the save
+ * @argv: argv
+ */
 void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 {
 	if (getline(&buffer, bufSIZE, stdin) == -1)
 	{
-		free(buffer);
-		free(bufferCopy);
-		exit(0);
+		free(buffer);/**/
+		free(bufferCopy); /**/
+		exit(1);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
@@ -74,8 +92,8 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
 		{
-			free(buffer);
-			free(bufferCopy);
+			free(buffer);/**/
+			free(bufferCopy);/**/
 			exit(0);
 		}
 

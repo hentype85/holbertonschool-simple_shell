@@ -1,6 +1,10 @@
 #include "main.h"
 
-int signalExit = 0;
+/**
+ * signalHandler - the function of signal
+ * @signum: the int
+ * Return: void
+ */
 
 void signalHandler(int signum)
 {
@@ -8,7 +12,12 @@ void signalHandler(int signum)
 		write(STDOUT_FILENO, "\n$ ", 4);
 }
 
-
+/**
+ *main - Main function
+ *@argc: the content
+ *@argv: the space
+ *Return: allways
+ */
 int main(int __attribute__((unused)) argc, char **argv)
 {
 	int isInteractive = 0;
@@ -17,13 +26,13 @@ int main(int __attribute__((unused)) argc, char **argv)
 	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	signal(SIGINT, signalHandler);
+	isInteractive = isatty(fileno(stdin));
 
 	while (1)
 	{
-		isInteractive = isatty(fileno(stdin));
 		if (isInteractive == 1)
 		{
-			write(STDIN_FILENO,"$ ",2);
+			write(STDIN_FILENO, "$ ", 2);
 			shellInt(buffer, bufferCopy, &bufSIZE, argv);
 		}
 		else
