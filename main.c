@@ -8,8 +8,23 @@
 
 void signalHandler(int signum)
 {
-	if (signum == SIGINT)
-		write(STDOUT_FILENO, "\n$ ", 4);
+	(void) signum;
+	write(STDOUT_FILENO, "\n", 1);
+	fflush(stdout);
+	exit(0);
+}
+
+/**
+ * signalQuitHandler - the function of signal for SIGQUIT
+ * @signum: the int
+ * Return: void
+ */
+
+void signalQuitHandler(int signum)
+{
+        (void) signum;
+        write(STDOUT_FILENO, "Ctrl+\\ pressed - exiting\n", 26);
+        exit(0);
 }
 
 /**
@@ -20,22 +35,25 @@ void signalHandler(int signum)
  */
 int main(int __attribute__((unused)) argc, char **argv)
 {
-	int isInteractive = 0;
 	size_t bufSIZE = SIZE;
 	char *buffer = malloc(sizeof(char) * bufSIZE);
 	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	signal(SIGINT, signalHandler);
-	isInteractive = isatty(fileno(stdin));
+	signal(SIGQUIT, signalQuitHandler);
 
-	while (1)
+	if (isatty(STDIN_FILENO) == 1)
 	{
-		if (isInteractive == 1)
+		while (1)
 		{
 			write(STDIN_FILENO, "$ ", 2);
+			fflush(stdout);
 			shellInt(buffer, bufferCopy, &bufSIZE, argv);
 		}
-		else
+	}
+	else
+	{
+		while (1)
 		{
 			shellInt(buffer, bufferCopy, &bufSIZE, argv);
 		}
