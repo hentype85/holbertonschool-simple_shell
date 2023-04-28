@@ -8,7 +8,7 @@
 void signalHandler(int __attribute__((unused)) signum)
 {
 	printf("\n");
-	fflush(stdout);
+	/*fflush(stdout);*/
 	exit(0);
 }
 
@@ -20,8 +20,10 @@ void signalHandler(int __attribute__((unused)) signum)
  */
 int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 {
-	signal(SIGINT, signalHandler);
+	int res = 0;
 
+	signal(SIGINT, signalHandler);
+/*
 	if (isatty(STDIN_FILENO) == 1)
 	{
 		while (1)
@@ -37,6 +39,16 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 		{
 			shellInt();
 		}
+	}*/
+	while (1)
+	{
+		res = isatty(STDIN_FILENO);
+		if (res == 1)
+			printf("($) ");
+
+		shellInt();
 	}
+
+	return (0);
 }
 
