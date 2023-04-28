@@ -1,20 +1,12 @@
 #include "main.h"
 
-void frees(char *buffer, char **bufferCopy)
-{
-	if (buffer != NULL)
-		free(buffer);
-	if (bufferCopy != NULL)
-		free(bufferCopy);
-}
-
 void executeCommand(char *buffer, char **bufferCopy, char **argv)
 {
     char command[SIZE];
     int status = 0;
     pid_t pid;
 
-    sprintf(command, "%s", _getPath(bufferCopy[0]);
+    sprintf(command, "%s", _getpath(bufferCopy[0]));
 
     if (access(command, 1) == 0)
     {
@@ -27,12 +19,16 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
             if (execve(command, bufferCopy, NULL) == -1)
             {
                 perror(argv[0]);
+		free(buffer);
+		free(bufferCopy);
                 exit(EXIT_FAILURE);
             }
         }
         else if (pid < 0)
         {
             perror(argv[0]);
+	    free(buffer);
+	    free(bufferCopy);
             exit(EXIT_FAILURE);
         }
         else
@@ -67,8 +63,9 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 {
 	if (getline(&buffer, bufSIZE, stdin) == -1)
 	{
-		frees(buffer, bufferCopy);
-		exit(1);
+		free(buffer);
+		free(bufferCopy);
+		exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
@@ -77,7 +74,8 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
 		{
-			frees(buffer, bufferCopy);
+			free(buffer);
+			free(bufferCopy);
 			exit(0);
 		}
 
@@ -88,6 +86,4 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 		else
 			executeCommand(buffer, bufferCopy, argv);
 	}
-
-	frees(buffer, bufferCopy);
 }

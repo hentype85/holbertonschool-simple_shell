@@ -6,10 +6,6 @@ void signalHandler(int signum)
 {
 	if (signum == SIGINT)
 		write(STDOUT_FILENO, "\n$ ", 4);
-	else if (signum == SIGQUIT)
-	{
-		signalExit = 1;
-	}
 }
 
 
@@ -21,9 +17,8 @@ int main(int __attribute__((unused)) argc, char **argv)
 	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	signal(SIGINT, signalHandler);
-	signal(SIGQUIT, signalHandler);
 
-	while (signalExit == 0)
+	while (1)
 	{
 		isInteractive = isatty(fileno(stdin));
 		if (isInteractive == 1)
@@ -33,7 +28,7 @@ int main(int __attribute__((unused)) argc, char **argv)
 		}
 		else
 		{
-		   shellInt(buffer, bufferCopy, &bufSIZE, argv);
+			shellInt(buffer, bufferCopy, &bufSIZE, argv);
 		}
 	}
 
