@@ -37,8 +37,5 @@ int main(int __attribute__((unused)) argc, char **argv)
 		}
 	}
 
-	free(buffer);
-	free(bufferCopy);
-
 	return (0);
 }
