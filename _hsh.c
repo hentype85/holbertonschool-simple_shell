@@ -14,8 +14,7 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
 
     sprintf(command, "%s", _getpath(bufferCopy[0]));
 
-    if (access(command, 1) == 0)
-    {
+   
         pid = fork();
 
         if (pid == 0)
@@ -26,7 +25,7 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
             {
                 perror(argv[0]);
 		free(buffer);
-                free(bufferCopy); 
+                free(bufferCopy);
                 exit(EXIT_FAILURE);
             }
         }
@@ -42,12 +41,7 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
 		if (waitpid(-1, &status, 0) == -1)
 			perror(argv[0]);
         }
-    }
-    else
-    {
-        perror(argv[0]);
-        return;
-    }
+ 
 }
 /**
  * getTokens - The function that tokenizes
