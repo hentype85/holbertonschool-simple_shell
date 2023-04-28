@@ -86,7 +86,6 @@ void shellInt(void)
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		printf("\n");
 		frees(buffer, bufferCopy), exit(0);
 	}
 

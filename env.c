@@ -28,3 +28,4 @@ char *_getenv()
 
 	return (value);
 }
+
