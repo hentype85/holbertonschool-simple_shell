@@ -91,7 +91,7 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 		{
 			free(buffer);/**/
 			free(bufferCopy);/**/
-			exit(0);
+			exit(2);
 		}
 
 		if (strcmp(bufferCopy[0], "env") == 0)
