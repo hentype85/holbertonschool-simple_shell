@@ -1,9 +1,15 @@
 #include "main.h"
 
+int signalExit = 0;
+
 void signalHandler(int signum)
 {
-	(void) signum;
-	write(STDOUT_FILENO, "\n$ ", 4);
+	if (signum == SIGINT)
+		write(STDOUT_FILENO, "\n$ ", 4);
+	else if (signum == SIGQUIT)
+	{
+		signalExit = 1;
+	}
 }
 
 
@@ -15,8 +21,9 @@ int main(int __attribute__((unused)) argc, char **argv)
 	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	signal(SIGINT, signalHandler);
+	signal(SIGQUIT, signalHandler);
 
-	while (1)
+	while (signalExit == 0)
 	{
 		isInteractive = isatty(fileno(stdin));
 		if (isInteractive == 1)
@@ -29,6 +36,10 @@ int main(int __attribute__((unused)) argc, char **argv)
 		   shellInt(buffer, bufferCopy, &bufSIZE, argv);
 		}
 	}
+
+	free(argv);
+	free(buffer);
+	free(bufferCopy);
 
 	return (0);
 }

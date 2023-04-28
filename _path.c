@@ -14,7 +14,8 @@ char *_getpath(char *command)
 	char *token = strtok(path, ":");
 
 	if (access(command, 1) == 0)
-		return (_strdup(command));
+		return (strdup(command));
+
 	if (path != NULL)
 	{
 		while (token != NULL)
@@ -33,7 +34,7 @@ char *_getpath(char *command)
 	free(path);
 
 	if (gotPath)
-		return (_strdup(command_path));
+		return (strdup(command_path));
 
 	return (NULL);
 }

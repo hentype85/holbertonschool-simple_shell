@@ -15,7 +15,6 @@ extern char **environ;
 
 void executeCommand(char *buffer, char **bufferCopy, char **argv);
 char **getTokens(char *buffer, char **bufferCopy);
-void signalHandler(int signum);
 int _strncmp(char *s1, char *s2, int n);
 char *_strdup(char *s);
 char *_getenv();
@@ -23,5 +22,6 @@ char *_getpath(char *command);
 void showEnviron(void);
 int SpecialChar(char *s);
 void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv);
+void signalHandler(int signum);
 
 #endif
