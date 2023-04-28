@@ -1,5 +1,13 @@
 #include "main.h"
 
+void frees(char *buffer, char **bufferCopy)
+{
+	if (buffer != NULL)
+		free(buffer);
+	if (bufferCopy != NULL)
+		free(bufferCopy);
+}
+
 void executeCommand(char *buffer, char **bufferCopy, char **argv)
 {
     char command[SIZE];
@@ -88,10 +96,10 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 		if (strcmp(bufferCopy[0], "env") == 0)
 		{
 			showEnviron();
-			free(buffer);/**/
-			free(bufferCopy);/**/
 		}
 		else
 			executeCommand(buffer, bufferCopy, argv);
 	}
+
+	frees(buffer, bufferCopy);
 }
