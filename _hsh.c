@@ -36,22 +36,18 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
         }
         else
         {
-            if (waitpid(-1, &status, 0) == -1)
-                perror(argv[0]);
+		if (waitpid(-1, &status, 0) == -1)
+			perror(argv[0]);
         }
     }
     else
     {
         perror(argv[0]);
-        free(getPath);
-	free(buffer);
-        free(bufferCopy);
+	free(getPath);
         return;
     }
 
     free(getPath);
-    free(buffer);
-    free(bufferCopy);
 }
 
 char **getTokens(char *buffer, char **bufferCopy)
@@ -69,31 +65,32 @@ char **getTokens(char *buffer, char **bufferCopy)
 	return (bufferCopy);
 }
 
-void shellInt(int __attribute__((unused)) isInteractive, char **argv)
+void shellInt(char *buffer, char **bufferCopy, char **argv)
 {
 	size_t bufSIZE = SIZE;
-	char *buffer = malloc(sizeof(char) * bufSIZE);
-	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
 		free(buffer);/**/
 		free(bufferCopy); /**/
-		exit(0);
+		exit(1);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
-	if (bufferCopy[0] != NULL) {
+	if (bufferCopy[0] != NULL) 
+	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
 		{
 			free(buffer);/**/
 			free(bufferCopy);/**/
-			exit(1);
+			exit(0);
 		}
 
 		if (strcmp(bufferCopy[0], "env") == 0)
+		{
 			showEnviron();
+		}
 		else
 			executeCommand(buffer, bufferCopy, argv);
 	}

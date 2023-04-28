@@ -10,6 +10,9 @@ void signalHandler(int signum)
 int main(int __attribute__((unused)) argc, char **argv)
 {
 	int isInteractive = 0;
+	size_t bufSIZE = SIZE;
+	char *buffer = malloc(sizeof(char) * bufSIZE);
+	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	signal(SIGINT, signalHandler);
 
@@ -19,11 +22,11 @@ int main(int __attribute__((unused)) argc, char **argv)
 		if (isInteractive == 1)
 		{
 			write(STDIN_FILENO,"$ ",2);
-			shellInt(isInteractive, argv);
+			shellInt(buffer, bufferCopy, argv);
 		}
 		else
 		{
-		   shellInt(isInteractive, argv);
+		   shellInt(buffer, bufferCopy, argv);
 		}
 	}
 
