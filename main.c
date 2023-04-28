@@ -1,15 +1,12 @@
 #include "main.h"
 
-<<<<<<< HEAD
-
 /**
  * signalHandler - the function of signal
  * @signum: the int
  * Return: void
  */
-=======
+
 int signalExit = 0;
->>>>>>> f798ecd64cfc91b80864cc7846c8e06336846638
 
 void signalHandler(int signum)
 {

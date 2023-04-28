@@ -1,14 +1,11 @@
 #include "main.h"
 
-<<<<<<< HEAD
-
 /**
  * executeCommand - Function for executing
  * @buffer: The Buffer
  * @bufferCopy: a Saved copy of the Buffer
  * @argv: The content
  */
-=======
 void frees(char *buffer, char **bufferCopy)
 {
 	if (buffer != NULL)
@@ -19,12 +16,12 @@ void frees(char *buffer, char **bufferCopy)
 
 void executeCommand(char *buffer, char **bufferCopy, char **argv)
 {
-    char command[SIZE];
-    int status = 0;
-    pid_t pid;
+	char command[SIZE];
+	int status = 0;
+	pid_t pid;
 
-    sprintf(command, "%s", _getPath(bufferCopy[0]);
->>>>>>> f798ecd64cfc91b80864cc7846c8e06336846638
+	sprintf(command, "%s", _getPath(bufferCopy[0]);
+}
 
 void executeCommand(char *buffer, char **bufferCopy, char **argv)
 {
@@ -33,7 +30,6 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
 	int status = 0;
 	pid_t pid;
 
-<<<<<<< HEAD
 	sprintf(command, "%s", getPath);
 	if (access(command, 1) == 0)
 	{
@@ -61,38 +57,37 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
 		else
 			if (waitpid(-1, &status, 0) == -1)
 				perror(argv[0]);
-	}
-	else
-	{
-		perror(argv[0]);
+			else
+			{
+				perror(argv[0]);
+				free(getPath);
+				return;
+			}
 		free(getPath);
-		return;
-	}
-	free(getPath);
-=======
-            if (execve(command, bufferCopy, NULL) == -1)
-            {
-                perror(argv[0]);
-                exit(EXIT_FAILURE);
-            }
-        }
-        else if (pid < 0)
-        {
-            perror(argv[0]);
-            exit(EXIT_FAILURE);
-        }
-        else
-        {
-		if (waitpid(-1, &status, 0) == -1)
+
+		if (execve(command, bufferCopy, NULL) == -1)
+		{
 			perror(argv[0]);
-        }
-    }
-    else
-    {
-        perror(argv[0]);
-        return;
-    }
->>>>>>> f798ecd64cfc91b80864cc7846c8e06336846638
+			exit(EXIT_FAILURE);
+		}
+		else if (pid < 0)
+		{
+			perror(argv[0]);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			{
+				if (waitpid(-1, &status, 0) == -1)
+					perror(argv[0]);
+			}
+		}
+		else
+		{
+			perror(argv[0]);
+			return;
+		}
+	}
 }
 /**
  * getTokens - The function that tokenizes
