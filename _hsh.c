@@ -65,11 +65,9 @@ char **getTokens(char *buffer, char **bufferCopy)
 	return (bufferCopy);
 }
 
-void shellInt(char *buffer, char **bufferCopy, char **argv)
+void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 {
-	size_t bufSIZE = SIZE;
-
-	if (getline(&buffer, &bufSIZE, stdin) == -1)
+	if (getline(&buffer, bufSIZE, stdin) == -1)
 	{
 		free(buffer);/**/
 		free(bufferCopy); /**/

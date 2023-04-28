@@ -16,17 +16,17 @@ int main(int __attribute__((unused)) argc, char **argv)
 
 	signal(SIGINT, signalHandler);
 
-	while(1)
+	while (1)
 	{
 		isInteractive = isatty(fileno(stdin));
 		if (isInteractive == 1)
 		{
 			write(STDIN_FILENO,"$ ",2);
-			shellInt(buffer, bufferCopy, argv);
+			shellInt(buffer, bufferCopy, &bufSIZE, argv);
 		}
 		else
 		{
-		   shellInt(buffer, bufferCopy, argv);
+		   shellInt(buffer, bufferCopy, &bufSIZE, argv);
 		}
 	}
 

@@ -22,6 +22,6 @@ char *_getenv();
 char *_getpath(char *command);
 void showEnviron(void);
 int SpecialChar(char *s);
-void shellInt(char *buffer, char **bufferCopy,char **argv);
+void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv);
 
 #endif
