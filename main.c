@@ -6,8 +6,6 @@
  * Return: void
  */
 
-int signalExit = 0;
-
 void signalHandler(int signum)
 {
 	if (signum == SIGINT)

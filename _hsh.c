@@ -1,10 +1,9 @@
 #include "main.h"
 
 /**
- * executeCommand - Function for executing
+ * frees - Function for executing
  * @buffer: The Buffer
  * @bufferCopy: a Saved copy of the Buffer
- * @argv: The content
  */
 void frees(char *buffer, char **bufferCopy)
 {
@@ -14,15 +13,12 @@ void frees(char *buffer, char **bufferCopy)
 		free(bufferCopy);
 }
 
-void executeCommand(char *buffer, char **bufferCopy, char **argv)
-{
-	char command[SIZE];
-	int status = 0;
-	pid_t pid;
-
-	sprintf(command, "%s", _getPath(bufferCopy[0]);
-}
-
+/**
+ *executeCommand - the function
+ *@buffer: buffer
+ *@bufferCopy: copy of the buffer
+ *@argv: argv
+ */
 void executeCommand(char *buffer, char **bufferCopy, char **argv)
 {
 	char command[SIZE];
@@ -55,6 +51,7 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
 			exit(EXIT_FAILURE);
 		}
 		else
+		{
 			if (waitpid(-1, &status, 0) == -1)
 				perror(argv[0]);
 			else
@@ -63,6 +60,8 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
 				free(getPath);
 				return;
 			}
+		}
+	}
 		free(getPath);
 
 		if (execve(command, bufferCopy, NULL) == -1)
@@ -87,7 +86,7 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
 			perror(argv[0]);
 			return;
 		}
-	}
+		free(getPath);
 }
 /**
  * getTokens - The function that tokenizes
