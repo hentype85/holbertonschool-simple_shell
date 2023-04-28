@@ -55,12 +55,12 @@ void executeCommand(char *buffer, char **bufferCopy, char **argv)
 char **getTokens(char *buffer, char **bufferCopy)
 {
 	int i = 0;
-	char *token = strtok(buffer, " \n");
+	char *token = strtok(buffer, " \n\t");
 
 	while (token != NULL)
 	{
 		bufferCopy[i++] = token;
-		token = strtok(NULL, " \n");
+		token = strtok(NULL, " \n\t");
 	}
 	bufferCopy[i] = NULL;
 
