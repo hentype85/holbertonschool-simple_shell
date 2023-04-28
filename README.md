@@ -19,9 +19,8 @@ _strncmp() compares two character strings.
 This function receives as arguments two pointers to character strings, and an integer indicating the number of characters to compare.
 Returns an integer indicating whether the strings are equal to 0, or different to 1.
 
-_strdup() duplica una cadena de caracteres. 
-Esta función recibe como argumento un puntero a una cadena de caracteres, 
-y devuelve un puntero a una nueva cadena de caracteres que contiene una copia de la cadena original.
+_strdup() duplicates a string of characters. This function takes as argument a pointer to a string, 
+and returns a pointer to a new string that contains a copy of the original string.
 
 _getenv() gets the value of an environment variable.
 This function receives as argument the name of the environment variable,
