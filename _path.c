@@ -12,10 +12,10 @@ char *_getpath(char *command)
 	char command_path[SIZE];
 	char *path = strdup(_getenv());
 	char *token = strtok(path, ":");
-
+/*
 	if (access(command, 1) == 0)
 		return (strdup(command));
-
+*/
 	if (path != NULL)
 	{
 		while (token != NULL)
