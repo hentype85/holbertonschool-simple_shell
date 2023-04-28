@@ -1,63 +1,42 @@
 #include "main.h"
 
 /**
- * signalHandler - the function of signal
- * @signum: the int
- * Return: void
+ * signalHandler - the func of exit
+ * @signum: the int of the signal
+ * Return: an int
  */
-
 void signalHandler(int signum)
 {
-	(void) signum;
-	write(STDOUT_FILENO, "\n", 1);
-	fflush(stdout);
-	exit(0);
+	printf("\n");
+	exit(signum);
 }
 
 /**
- * signalQuitHandler - the function of signal for SIGQUIT
- * @signum: the int
- * Return: void
+ * main - the function
+ * @argc: argument count
+ * @argv: argument vector
+ * Return: 0 is ok
  */
-
-void signalQuitHandler(int signum)
+int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 {
-        (void) signum;
-        write(STDOUT_FILENO, "Ctrl+\\ pressed - exiting\n", 26);
-        exit(0);
-}
-
-/**
- *main - Main function
- *@argc: the content
- *@argv: the space
- *Return: allways
- */
-int main(int __attribute__((unused)) argc, char **argv)
-{
-	size_t bufSIZE = SIZE;
-	char *buffer = malloc(sizeof(char) * bufSIZE);
-	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
-
 	signal(SIGINT, signalHandler);
-	signal(SIGQUIT, signalQuitHandler);
 
 	if (isatty(STDIN_FILENO) == 1)
 	{
 		while (1)
 		{
-			write(STDIN_FILENO, "$ ", 2);
-			fflush(stdout);
-			shellInt(buffer, bufferCopy, &bufSIZE, argv);
+			printf("($) ");
+			shellInt();
 		}
 	}
 	else
 	{
 		while (1)
 		{
-			shellInt(buffer, bufferCopy, &bufSIZE, argv);
+			shellInt();
 		}
 	}
 
 	return (0);
 }
+
