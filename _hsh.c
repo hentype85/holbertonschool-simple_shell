@@ -88,6 +88,8 @@ void shellInt(char *buffer, char **bufferCopy, size_t *bufSIZE, char **argv)
 		if (strcmp(bufferCopy[0], "env") == 0)
 		{
 			showEnviron();
+			free(buffer);/**/
+			free(bufferCopy);/**/
 		}
 		else
 			executeCommand(buffer, bufferCopy, argv);
