@@ -8,37 +8,38 @@
 void executeCommand(char **bufferCopy)
 {
 	char command[SIZE];
+	char *getPath = _getpath(bufferCopy[0]);
 	pid_t pid;
 
-	/* sprintf(command, "%s/%s", "/usr/bin", bufferCopy[0]); */
-	/* sprintf(command, "%s", bufferCopy[0]); */
-	sprintf(command, "%s", _getpath(bufferCopy[0]));
+	sprintf(command, "%s", getPath);
 
 	if (access(command, 1) == -1)
 	{
-		perror(bufferCopy[0]);
+		perror("./hsh");
 		return;
 	}
 	else
 	{
 		pid = fork();
-		
+
 		if (pid == 0)
 		{
 			bufferCopy[0][_strlen(bufferCopy[0]) - 1] = '\0';
 
 			if (execve(command, bufferCopy, NULL) == -1)
 			{
-				perror(bufferCopy[0]);
+				perror("./hsh");
 			}
 		}
 		else if (pid < 0)
 		{
-			perror(bufferCopy[0]);
+			perror("./hsh");
 		}
 		else
 			waitpid(pid, NULL, 0);
 	}
+
+	free(getPath);
 }
 
 /**
@@ -67,7 +68,9 @@ char **getTokens(char *buffer, char **bufferCopy)
 
 	while (token != NULL)
 	{
-		bufferCopy[i++] = token;
+		if (SpecialChar(token) == 0)
+			bufferCopy[i++] = token;
+
 		token = strtok(NULL, " \n");
 	}
 	bufferCopy[i] = NULL;
@@ -81,11 +84,18 @@ char **getTokens(char *buffer, char **bufferCopy)
 void shellInt(void)
 {
 	size_t bufSIZE = SIZE;
-	char *buffer = malloc(sizeof(char) * bufSIZE);
-	char **bufferCopy = malloc(sizeof(char *) * bufSIZE);
+	char *buffer;
+	char **bufferCopy;
 
+	buffer = malloc(sizeof(char) * bufSIZE);
+	bufferCopy = malloc(sizeof(char *) * bufSIZE);
+	if (bufferCopy == NULL)
+	{
+		free(buffer);
+	}
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
+		fflush(stdin);
 		frees(buffer, bufferCopy), exit(0);
 	}
 
@@ -94,12 +104,18 @@ void shellInt(void)
 	if (bufferCopy[0] != NULL)
 	{
 		if (strcmp(bufferCopy[0], "exit") == 0)
-			frees(buffer, bufferCopy), exit(1);
+		{
+			frees(buffer, bufferCopy);
+			exit(EXIT_SUCCESS);
+		}
 
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
+
 		else
+		{
 			executeCommand(bufferCopy);
+		}
 	}
 
 	frees(buffer, bufferCopy);

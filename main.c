@@ -5,10 +5,11 @@
  * @signum: the int of the signal
  * Return: an int
  */
-void signalHandler(int signum)
+void signalHandler(int __attribute__((unused)) signum)
 {
 	printf("\n");
-	exit(signum);
+	fflush(stdout);
+	exit(0);
 }
 
 /**
@@ -26,6 +27,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 		while (1)
 		{
 			printf("($) ");
+			fflush(stdout);
 			shellInt();
 		}
 	}
@@ -36,7 +38,5 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) **argv)
 			shellInt();
 		}
 	}
-
-	return (0);
 }
 
