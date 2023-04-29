@@ -1,6 +1,6 @@
 <h1 align ="center">C - Simple Shell</h1><br>
 <p align="center">
-  <img width="612" height="414" src="https://media.istockphoto.com/id/508578343/photo/seashell-on-the-beach.jpg?s=612x612&w=0&k=20&c=-AexzU9LyyrC_0FjAPDcfQjK8h5K6EqFdp_DfLvTBl8=">
+  <img width="500" height="300" src="https://media.istockphoto.com/id/508578343/photo/seashell-on-the-beach.jpg?s=612x612&w=0&k=20&c=-AexzU9LyyrC_0FjAPDcfQjK8h5K6EqFdp_DfLvTBl8=">
 </p>
 
 
