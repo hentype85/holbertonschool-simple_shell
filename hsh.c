@@ -87,7 +87,7 @@ void shellInt(void)
 	char **bufferCopy;
 
 	buffer = NULL;
-	bufferCopy = malloc(sizeof(char *) * bufSIZE);
+	bufferCopy = NULL;
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
@@ -97,7 +97,7 @@ void shellInt(void)
 		frees(buffer, bufferCopy);
 		exit(0);
 	}
-
+	bufferCopy = realloc(bufferCopy, sizeof(char *) * bufSIZE);
 	bufferCopy = getTokens(buffer, bufferCopy);
 
 	if (bufferCopy[0] != NULL)
