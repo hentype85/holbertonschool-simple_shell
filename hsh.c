@@ -26,7 +26,7 @@ void executeCommand(char **bufferCopy)
 		{
 			bufferCopy[0][_strlen(bufferCopy[0]) - 1] = '\0';
 
-			if (execve(command, bufferCopy, NULL) == -1)
+			if (execve(command, bufferCopy, environ) == -1)
 			{
 				perror("./hsh");
 			}
@@ -86,11 +86,14 @@ void shellInt(void)
 	char *buffer;
 	char **bufferCopy;
 
-	buffer = malloc(sizeof(char) * bufSIZE);
+	buffer = NULL;
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
+		if (isatty(fileno(stdin)))
+			printf("\n");
+
 		frees(buffer, bufferCopy);
 		exit(0);
 	}
