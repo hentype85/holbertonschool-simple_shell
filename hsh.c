@@ -87,14 +87,13 @@ void shellInt(void)
 	char **bufferCopy;
 
 	buffer = malloc(sizeof(char) * bufSIZE);
-	nLines = getline(&buffer, &bufSIZE, stdin);
-	if (nLines == -1)
+	bufferCopy = malloc(sizeof(char *) * bufSIZE);
+
+	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		free(buffer, bufferCopy);
+		frees(buffer, bufferCopy);
 		exit(0);
 	}
-
-	bufferCopy = malloc(sizeof(char *) * nLines);
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
