@@ -82,18 +82,15 @@ char **getTokens(char *buffer, char **bufferCopy)
  */
 void shellInt(void)
 {
-	size_t bufSIZE = SIZE;
+	size_t bufSIZE = SIZE, nLines = 0;
 	char *buffer;
 	char **bufferCopy;
 
 	buffer = malloc(sizeof(char) * bufSIZE);
-	bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
-	if (getline(&buffer, &bufSIZE, stdin) == -1)
-	{
-		fflush(stdin);
-		frees(buffer, bufferCopy), exit(0);
-	}
+	nLines = getline(&buffer, &bufSIZE, stdin);
+
+	bufferCopy = malloc(sizeof(char *) * nLines);
 
 	bufferCopy = getTokens(buffer, bufferCopy);
 
