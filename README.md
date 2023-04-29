@@ -1,6 +1,6 @@
 <h1 align ="center">C - Simple Shell</h1><br>
 <p align="center">
-  <img width="200" height="200" src="https://p7.hiclipart.com/preview/8/946/372/seashell-cartoon-cartoon-shells.jpg">
+  <img width="500" height="300" src="https://media.istockphoto.com/id/508578343/photo/seashell-on-the-beach.jpg?s=612x612&w=0&k=20&c=-AexzU9LyyrC_0FjAPDcfQjK8h5K6EqFdp_DfLvTBl8=">
 </p>
 
 
