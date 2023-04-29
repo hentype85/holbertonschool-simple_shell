@@ -82,7 +82,7 @@ char **getTokens(char *buffer, char **bufferCopy)
  */
 void shellInt(void)
 {
-	size_t bufSIZE = SIZE, nLines = 0;
+	size_t bufSIZE = SIZE;
 	char *buffer;
 	char **bufferCopy;
 
