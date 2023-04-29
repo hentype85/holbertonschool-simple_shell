@@ -67,9 +67,6 @@ char **getTokens(char *buffer, char **bufferCopy)
 
 	while (token != NULL)
 	{
-		if(token[i] == ' ')
-			i++;
-
 		if (SpecialChar(token) == 0)
 			bufferCopy[i++] = token;
 
