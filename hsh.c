@@ -87,8 +87,12 @@ void shellInt(void)
 	char **bufferCopy;
 
 	buffer = malloc(sizeof(char) * bufSIZE);
-
 	nLines = getline(&buffer, &bufSIZE, stdin);
+	if (nLines == -1)
+	{
+		free(buffer, bufferCopy);
+		exit(0);
+	}
 
 	bufferCopy = malloc(sizeof(char *) * nLines);
 
