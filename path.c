@@ -37,4 +37,3 @@ char *_getpath(char *command)
 
 	return (NULL);
 }
-

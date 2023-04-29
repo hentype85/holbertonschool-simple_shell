@@ -22,6 +22,9 @@ Returns an integer indicating whether the strings are equal to 0, or different t
 _strdup() duplicates a string of characters. This function takes as argument a pointer to a string, 
 and returns a pointer to a new string that contains a copy of the original string.
 
+SpecialChar checks if a string has any special characters and returns 1 
+if it finds any and 0 if none is found.
+
 _getenv() gets the value of an environment variable.
 This function receives as argument the name of the environment variable,
 and returns a pointer to a string containing the value of the variable.

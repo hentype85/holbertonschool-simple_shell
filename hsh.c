@@ -54,7 +54,6 @@ void frees(char *buffer, char **bufferCopy)
 	if (bufferCopy != NULL)
 		free(bufferCopy);
 }
-
 /**
  * getTokens - string tokenization
  * @buffer: pointer to main buffer
@@ -89,11 +88,7 @@ void shellInt(void)
 
 	buffer = malloc(sizeof(char) * bufSIZE);
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
-	/*
-	if (bufferCopy == NULL)
-	{
-		free(buffer);
-	}*/
+
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
 		fflush(stdin);
