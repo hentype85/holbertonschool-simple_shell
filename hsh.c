@@ -15,7 +15,6 @@ void executeCommand(char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
-		free(getPath);
 		perror("./hsh");
 		return;
 	}
@@ -25,7 +24,7 @@ void executeCommand(char **bufferCopy)
 
 		if (pid == 0)
 		{
-			if (execve(command, bufferCopy, environ) == -1)
+			if (execve(command, bufferCopy, NULL) == -1)
 			{
 				perror("./hsh");
 			}
@@ -41,6 +40,18 @@ void executeCommand(char **bufferCopy)
 	free(getPath);
 }
 
+/**
+ * frees - free memory leaks
+ * @buffer: address of pointer
+ * @bufferCopy: address of double pointer
+ */
+void frees(char *buffer, char **bufferCopy)
+{
+	if (buffer != NULL)
+		free(buffer);
+	if (bufferCopy != NULL)
+		free(bufferCopy);
+}
 /**
  * getTokens - string tokenization
  * @buffer: pointer to main buffer
@@ -66,12 +77,16 @@ char **getTokens(char *buffer, char **bufferCopy)
 
 /**
  * shellInt - its the shell
- * @buffer: buffer for input
- * @bufferCopy: get the tokens
- * @bufSIZE: size of buffers
  */
-void shellInt(char *buffer, char **bufferCopy, size_t bufSIZE)
+void shellInt(void)
 {
+	size_t bufSIZE = SIZE;
+	char *buffer;
+	char **bufferCopy;
+
+	buffer = malloc(sizeof(char) * bufSIZE);
+	bufferCopy = malloc(sizeof(char *) * bufSIZE);
+
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
 		fflush(stdin);
@@ -85,9 +100,13 @@ void shellInt(char *buffer, char **bufferCopy, size_t bufSIZE)
 		if (strcmp(bufferCopy[0], "exit") == 0)
 		{
 			frees(buffer, bufferCopy);
-			exit(EXIT_SUCCESS);
+			exit(0);
 		}
-
+		if (strcmp(bufferCopy[0], "\nexit") == 0)
+		{
+			frees(buffer, bufferCopy);
+			exit(2);
+		}
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
 
@@ -96,6 +115,8 @@ void shellInt(char *buffer, char **bufferCopy, size_t bufSIZE)
 			executeCommand(bufferCopy);
 		}
 	}
+
+	frees(buffer, bufferCopy);
 }
 
 

@@ -10,24 +10,12 @@ void signalHandler(int sig)
 	if (sig == SIGQUIT)
 	{
 		printf("\n");
+		exit(0);
 	}
 	else if (sig == SIGINT)
 	{
 		printf("\n");
 	}
-}
-
-/**
- * frees - free memory leaks
- * @buffer: address of pointer
- * @bufferCopy: address of double pointer
- */
-void frees(char *buffer, char **bufferCopy)
-{
-	if (buffer != NULL)
-		free(buffer);
-	if (bufferCopy != NULL)
-		free(bufferCopy);
 }
 
 /**
@@ -37,27 +25,20 @@ void frees(char *buffer, char **bufferCopy)
 int main(void)
 {
 	int res = 0;
-	size_t bufSIZE = SIZE;
+
+	signal(SIGINT, signalHandler);
+	signal(SIGQUIT, signalHandler);
 
 	while (1)
 	{
-		char *buffer;
-		char **bufferCopy;
-
-		signal(SIGINT, signalHandler);
-		signal(SIGQUIT, signalHandler);
-
 		res = isatty(STDIN_FILENO);
 		if (res == 1)
 			printf("($) ");
 
-		buffer = malloc(sizeof(char) * bufSIZE);
-		bufferCopy = malloc(sizeof(char) * bufSIZE);
-
-		shellInt(buffer, bufferCopy, bufSIZE);
-
-		frees(buffer, bufferCopy);
+		shellInt();
 	}
+
 	return (0);
 }
+
 
