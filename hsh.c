@@ -24,8 +24,6 @@ void executeCommand(char **bufferCopy)
 
 		if (pid == 0)
 		{
-			/*bufferCopy[0][strlen(bufferCopy[0]) - 1] = '\0';*/
-
 			if (execve(command, bufferCopy, environ) == -1)
 			{
 				perror("./hsh");
@@ -42,18 +40,6 @@ void executeCommand(char **bufferCopy)
 	free(getPath);
 }
 
-/**
- * frees - free memory leaks
- * @buffer: address of pointer
- * @bufferCopy: address of double pointer
- */
-void frees(char *buffer, char **bufferCopy)
-{
-	if (buffer != NULL)
-		free(buffer);
-	if (bufferCopy != NULL)
-		free(bufferCopy);
-}
 /**
  * getTokens - string tokenization
  * @buffer: pointer to main buffer
@@ -80,15 +66,8 @@ char **getTokens(char *buffer, char **bufferCopy)
 /**
  * shellInt - its the shell
  */
-void shellInt(void)
+void shellInt(char *buffer, char **bufferCopy, size_t bufSIZE)
 {
-	size_t bufSIZE = SIZE;
-	char *buffer;
-	char **bufferCopy;
-
-	buffer = malloc(sizeof(char) * bufSIZE);
-	bufferCopy = malloc(sizeof(char *) * bufSIZE);
-
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
 		fflush(stdin);
@@ -113,8 +92,6 @@ void shellInt(void)
 			executeCommand(bufferCopy);
 		}
 	}
-
-	frees(buffer, bufferCopy);
 }
 
 

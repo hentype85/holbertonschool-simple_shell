@@ -15,14 +15,11 @@ extern char **environ;
 void executeCommand(char **bufferCopy);
 void frees(char *buffer, char **bufferCopy);
 char **getTokens(char *buffer, char **bufferCopy);
-void shellInt(void);
+void shellInt(char *buffer, char **bufferCopy, size_t bufSIZE);
 void signalHandler(int signum);
-int _strncmp(char *s1, char *s2, int n);
 char *_getenv();
 char *_getpath(char *command);
 void showEnviron(void);
-int _strlen(char *s);
-char *_strdup(char *s);
 int SpecialChar(char *s);
 
 #endif
