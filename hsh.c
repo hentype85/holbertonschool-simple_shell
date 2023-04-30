@@ -25,7 +25,7 @@ void executeCommand(char **bufferCopy)
 
 		if (pid == 0)
 		{
-			if (execve(command, bufferCopy, NULL) == -1)
+			if (execve(command, bufferCopy, environ) == -1)
 			{
 				perror("./hsh");
 			}

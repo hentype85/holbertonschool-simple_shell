@@ -9,12 +9,12 @@ void signalHandler(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		printf("\n");
+		write(1, "\n", 1);;
 		exit(0);
 	}
 	else if (sig == SIGINT)
 	{
-		printf("\n");
+		write(1, "\n", 1);
 	}
 }
 
@@ -33,7 +33,7 @@ int main(void)
 	{
 		res = isatty(STDIN_FILENO);
 		if (res == 1)
-			printf("($) ");
+			write(1,"($) ",4);
 
 		shellInt();
 	}
