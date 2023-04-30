@@ -43,23 +43,23 @@ This function receives as arguments a pointer to the command buffer, a pointer t
 a pointer to the size of the buffer, and a pointer to the string array containing the command arguments.
 
 # functions and system calls used
-**strings.h** library
-**access** (man 2 access)
-**execve** (man 2 execve)
-**exit** (man 3 exit)
-**fflush** (man 3 fflush)
-**fork** (man 2 fork)
-**free** (man 3 free)
-**getline** (man 3 getline)
-**isatty** (man 3 isatty)
-**malloc** (man 3 malloc)
-**perror** (man 3 perror)
-**printf** (man 3 printf)
-**sprintf** (man 3 sprintf)
-**signal** (man 2 signal)
-**strtok** (man 3 strtok)
-**waitpid** (man 2 waitpid)
-**write** (man 2 write)
+`strings.h` library
+`access` (man 2 access)
+`execve` (man 2 execve)
+`exit` (man 3 exit)
+`fflush` (man 3 fflush)
+`fork` (man 2 fork)
+`free` (man 3 free)
+`getline` (man 3 getline)
+`isatty` (man 3 isatty)
+`malloc` (man 3 malloc)
+`perror` (man 3 perror)
+`printf` (man 3 printf)
+`sprintf` (man 3 sprintf)
+`signal` (man 2 signal)
+`strtok` (man 3 strtok)
+`waitpid` (man 2 waitpid)
+`write` (man 2 write)
 
 # Compilation
 ```c
