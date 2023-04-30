@@ -14,7 +14,7 @@ void signalHandler(int sig)
 	}
 	else if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
+		write(1, "\n($) ", 6);
 	}
 }
 
