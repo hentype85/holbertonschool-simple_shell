@@ -15,6 +15,7 @@ void executeCommand(char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
+		free(getPath);
 		perror("./hsh");
 		return;
 	}
@@ -101,11 +102,6 @@ void shellInt(void)
 		{
 			frees(buffer, bufferCopy);
 			exit(0);
-		}
-		if (strcmp(bufferCopy[0], "\nexit") == 0)
-		{
-			frees(buffer, bufferCopy);
-			exit(2);
 		}
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
