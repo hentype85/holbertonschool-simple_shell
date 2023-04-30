@@ -38,14 +38,15 @@ int main(void)
 {
 	int res = 0;
 	size_t bufSIZE = SIZE;
-	char *buffer;
-	char **bufferCopy;
-
-	signal(SIGINT, signalHandler);
-	signal(SIGQUIT, signalHandler);
 
 	while (1)
 	{
+		char *buffer;
+		char **bufferCopy;
+
+		signal(SIGINT, signalHandler);
+		signal(SIGQUIT, signalHandler);
+
 		res = isatty(STDIN_FILENO);
 		if (res == 1)
 			printf("($) ");
