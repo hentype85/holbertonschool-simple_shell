@@ -65,6 +65,9 @@ char **getTokens(char *buffer, char **bufferCopy)
 
 /**
  * shellInt - its the shell
+ * @buffer: buffer for input
+ * @bufferCopy: get the tokens
+ * @bufSIZE: size of buffers
  */
 void shellInt(char *buffer, char **bufferCopy, size_t bufSIZE)
 {

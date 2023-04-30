@@ -24,10 +24,10 @@ void signalHandler(int sig)
  */
 void frees(char *buffer, char **bufferCopy)
 {
-        if (buffer != NULL)
-                free(buffer);
-        if (bufferCopy != NULL)
-                free(bufferCopy);
+	if (buffer != NULL)
+		free(buffer);
+	if (bufferCopy != NULL)
+		free(bufferCopy);
 }
 
 /**
@@ -50,14 +50,13 @@ int main(void)
 		if (res == 1)
 			printf("($) ");
 
-		buffer = malloc(sizeof(char) *bufSIZE);
-		bufferCopy = malloc(sizeof(char) *bufSIZE);
+		buffer = malloc(sizeof(char) * bufSIZE);
+		bufferCopy = malloc(sizeof(char) * bufSIZE);
 
 		shellInt(buffer, bufferCopy, bufSIZE);
 
 		frees(buffer, bufferCopy);
 	}
-
 	return (0);
 }
 
