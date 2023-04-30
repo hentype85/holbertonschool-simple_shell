@@ -15,6 +15,7 @@ void executeCommand(char **bufferCopy)
 
 	if (access(command, 1) == -1)
 	{
+		free(getPath);
 		perror("./hsh");
 		return;
 	}
