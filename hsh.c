@@ -26,14 +26,10 @@ void executeCommand(char **bufferCopy)
 		if (pid == 0)
 		{
 			if (execve(command, bufferCopy, environ) == -1)
-			{
 				perror("./hsh");
-			}
 		}
 		else if (pid < 0)
-		{
 			perror("./hsh");
-		}
 		else
 			waitpid(pid, NULL, 0);
 	}
@@ -105,11 +101,8 @@ void shellInt(void)
 		}
 		if (strcmp(bufferCopy[0], "env") == 0)
 			showEnviron();
-
 		else
-		{
 			executeCommand(bufferCopy);
-		}
 	}
 
 	frees(buffer, bufferCopy);
