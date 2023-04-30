@@ -38,11 +38,15 @@ and returns a pointer to a string containing the full path of the command.
 showEnviron 
 displays the environment variables available on the system.
 
-shellInt() initialize the shell and read the commands entered by the user.
+shellInt initialize the shell and read the commands entered by the user.
 This function receives as arguments a pointer to the command buffer, a pointer to the copy of the buffer,
 a pointer to the size of the buffer, and a pointer to the string array containing the command arguments.
 
 # Compilation
 ```c
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+```
+# Valgrind
+```c
+valgrind --leak-check=full --show-leak-kinds=all echo "/bin/ls -l" | ./hsh
 ```
