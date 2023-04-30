@@ -25,7 +25,11 @@ void executeCommand(char **bufferCopy)
 		if (pid == 0)
 		{
 			bufferCopy[0][_strlen(bufferCopy[0]) - 1] = '\0';
-			execve(command, bufferCopy, environ);
+
+			if (execve(command, bufferCopy, environ) == -1)
+			{
+				perror("./hsh");
+			}
 		}
 		else if (pid < 0)
 		{
@@ -59,14 +63,14 @@ void frees(char *buffer, char **bufferCopy)
 char **getTokens(char *buffer, char **bufferCopy)
 {
 	int i = 0;
-	char *token = strtok(buffer, " \n\t\r");
+	char *token = strtok(buffer, " \n");
 
 	while (token != NULL)
 	{
 		if (SpecialChar(token) == 0)
 			bufferCopy[i++] = token;
 
-		token = strtok(NULL, " \n\t\r");
+		token = strtok(NULL, " \n");
 	}
 	bufferCopy[i] = NULL;
 
@@ -82,16 +86,13 @@ void shellInt(void)
 	char *buffer;
 	char **bufferCopy;
 
-	buffer = NULL;
+	buffer = malloc(sizeof(char) * bufSIZE);
 	bufferCopy = malloc(sizeof(char *) * bufSIZE);
 
 	if (getline(&buffer, &bufSIZE, stdin) == -1)
 	{
-		if (isatty(fileno(stdin)))
-			printf("\n");
-
-		frees(buffer, bufferCopy);
-		exit(0);
+		fflush(stdin);
+		frees(buffer, bufferCopy), exit(0);
 	}
 
 	bufferCopy = getTokens(buffer, bufferCopy);
@@ -115,4 +116,5 @@ void shellInt(void)
 
 	frees(buffer, bufferCopy);
 }
+
 
