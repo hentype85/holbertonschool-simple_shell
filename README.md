@@ -22,15 +22,6 @@ signalHandler
 handles the signals that are received in the shell.
 In particular, this function handles the SIGINT signal, which is sent when the user presses Ctrl + D.
 
-_strncmp 
-compares two character strings.
-This function receives as arguments two pointers to character strings, and an integer indicating the number of characters to compare.
-Returns an integer indicating whether the strings are equal to 0, or different to 1.
-
-_strdup 
-duplicates a string of characters. This function takes as argument a pointer to a string, 
-and returns a pointer to a new string that contains a copy of the original string.
-
 SpecialChar checks if a string has any special characters and returns 1 
 if it finds any and 0 if none is found.
 

@@ -16,7 +16,7 @@ char *_getenv()
 	{
 		env = environ[i];
 
-		if (_strncmp(path, env, lenPath) == 0)
+		if (strncmp(path, env, lenPath) == 0)
 		{
 			env += lenPath + 1;
 			value = env;

@@ -24,7 +24,7 @@ void executeCommand(char **bufferCopy)
 
 		if (pid == 0)
 		{
-			bufferCopy[0][_strlen(bufferCopy[0]) - 1] = '\0';
+			/*bufferCopy[0][strlen(bufferCopy[0]) - 1] = '\0';*/
 
 			if (execve(command, bufferCopy, environ) == -1)
 			{

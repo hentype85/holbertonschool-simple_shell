@@ -9,7 +9,7 @@ void signalHandler(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		exit(0);
+		printf("\n");
 	}
 	else if (sig == SIGINT)
 	{
